@@ -235,7 +235,11 @@ namespace wal
 //
 /// Mutex
 //
-	inline Mutex::Mutex( bool /*stat */)
+	inline Mutex::Mutex( bool 
+#ifdef _WIN32
+		stat
+#endif
+		)
 	{
 #ifdef _WIN32
 		_static = stat;

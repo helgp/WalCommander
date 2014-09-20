@@ -1129,7 +1129,11 @@ void NCWin::Home( PanelWin* p )
 }
 
 
-void NCWin::StartExecute( const unicode_t* cmd, FS* /*fs*/,  FSPath& path )
+void NCWin::StartExecute( const unicode_t* cmd, FS* 
+#ifdef _WIN32
+	fs
+#endif
+	,  FSPath& path )
 {
 #ifdef _WIN32
 	_history.Put( cmd );

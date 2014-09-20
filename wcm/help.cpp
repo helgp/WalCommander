@@ -616,7 +616,7 @@ void HelpNodeH::Prepare( int /*w */) {}
 HelpNodeH::~HelpNodeH() {}
 
 ///// HelpNodeWord
-HelpNodeWord::HelpNodeWord( HelpStyle* style, const char* utf8, const char*/* addr */)
+HelpNodeWord::HelpNodeWord( HelpStyle* style, const char* utf8, const char* /* addr */)
 	:  HelpNode( style ),
 	   _txt( utf8_to_unicode( utf8 ) )
 {
