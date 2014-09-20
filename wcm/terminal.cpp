@@ -286,7 +286,7 @@ TerminalStream::~TerminalStream()
 	}
 }
 
-void* TerminalInputThreadFunc( void* data );
+[[ noreturn ]] void* TerminalInputThreadFunc( void* data );
 void* TerminalOutputThreadFunc( void* data );
 
 Terminal::Terminal( /*int maxRows*/ )

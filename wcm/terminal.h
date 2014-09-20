@@ -98,7 +98,7 @@ public:
 class Terminal
 {
 
-	friend void* TerminalInputThreadFunc( void* data );
+	friend [[ noreturn ]] void* TerminalInputThreadFunc( void* data );
 	friend void* TerminalOutputThreadFunc( void* data );
 	friend class TerminalWin;
 
@@ -159,6 +159,6 @@ public:
 	~Terminal() {};
 };
 
-void* TerminalInputThreadFunc( void* data );
+[[ noreturn ]] void* TerminalInputThreadFunc( void* data );
 
 #endif
