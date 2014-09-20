@@ -286,10 +286,10 @@ namespace wal
 		   text( txt ),
 		   _chars( chars > 0 ? chars : 10 ),
 		   cursorVisible( false ),
-		   first( 0 ),
-		   frame3d( frame ),
 		   passwordMode( false ),
-		   doAcceptAltKeys(false)
+		   doAcceptAltKeys(false),
+		   first( 0 ),
+		   frame3d( frame )
 	{
 		text.End();
 
@@ -435,14 +435,14 @@ namespace wal
 		return p;
 	}
 
-	void EditLine::EventSize( cevent_size* pEvent )
+	void EditLine::EventSize( cevent_size* /*pEvent*/ )
 	{
 		first = 0;
 		CheckCursorPos();
 		Invalidate();
 	}
 
-	void EditLine::EventTimer( int tid )
+	void EditLine::EventTimer( int /*tid*/ )
 	{
 		cursorVisible = !cursorVisible;
 		wal::GC gc( this );
@@ -466,7 +466,7 @@ namespace wal
 		return true;
 	}
 
-	void EditLine::Paint( GC& gc, const crect& paintRect )
+	void EditLine::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		crect cr = ClientRect();
 		crect rect = cr;

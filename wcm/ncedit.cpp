@@ -89,20 +89,18 @@ void EditWin::OnChangeStyles()
 EditWin::EditWin( Win* parent )
 	:   Win( WT_CHILD, 0, parent ),
 	    _lo( 2, 2 ),
-	    charset( charset_table[GetFirstOperCharsetId()] ), //EditCSLatin1),
 	    vscroll( 0, this, true, false ),
+	    charset( charset_table[GetFirstOperCharsetId()] ), //EditCSLatin1),
+	    recomendedCursorCol( -1 ),
 	    charH( 1 ),
 	    charW( 1 ),
-	    autoIdent( wcmConfig.editAutoIdent ),
 	    tabSize( wcmConfig.editTabSize ),
+	    autoIdent( wcmConfig.editAutoIdent ),
 	    firstLine( 0 ),
 	    colOffset( 0 ),
-	    recomendedCursorCol( -1 ),
 	    rows( 0 ), cols( 0 ),
-
 	    _shl( 0 ),
 	    _shlLine( -1 ),
-
 	    _changed( false )
 {
 	vscroll.Enable();
@@ -948,7 +946,7 @@ void EditWin::ToClipboard()
 			ctx.Append( '\n' );
 		}
 
-		EditString& eLine = text.Get( end.line );
+		//EditString& eLine = text.Get( end.line );
 
 		if ( end.pos > 0 )
 		{
@@ -1487,7 +1485,7 @@ void EditWin::CalcScroll()
 }
 
 
-bool EditWin::Command( int id, int subId, Win* win, void* data )
+bool EditWin::Command( int id, int subId, Win* /*win*/, void* data )
 {
 	if ( id != CMD_SCROLL_INFO )
 	{
@@ -1537,7 +1535,7 @@ bool EditWin::Command( int id, int subId, Win* win, void* data )
 	return true;
 }
 
-bool EditWin::Broadcast( int id, int subId, Win* win, void* data )
+bool EditWin::Broadcast( int id, int /*subId*/, Win* /*win*/, void* /*data*/ )
 {
 	if ( id == ID_CHANGED_CONFIG_BROADCAST )
 	{
@@ -1766,7 +1764,7 @@ void EditWin::__RefreshScreenData()
 
 	//EditorColors colors = *editorColors;
 
-	int r, c;
+	int r;//, c;
 
 	for ( r = 0; r < screen.Rows(); r++ )
 	{
@@ -2330,7 +2328,7 @@ void EditWin::SetCursor( cpoint p, bool mark )
 
 	if ( line < 0 ) { line = 0; }
 
-	EditString& str = text.Get( line );
+	//EditString& str = text.Get( line );
 	int pos = GetPosFromCol( line, c );
 	cursor.Set( line, pos );
 

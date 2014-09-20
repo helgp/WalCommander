@@ -53,9 +53,9 @@ namespace wal
 	Button::Button( int nId, Win* parent, const unicode_t* txt, int id, crect* rect, int iconX, int iconY )
 		:  Win( Win::WT_CHILD, Win::WH_TABFOCUS | WH_CLICKFOCUS, parent, rect, nId ),
 		   pressed( false ),
+		   text(txt && txt[0] ? txt : spaceUnicodeStr),
 		   icon( new cicon( id, iconX, iconY ) ),
-		   commandId( id ),
-		   text(txt && txt[0] ? txt : spaceUnicodeStr)
+		   commandId( id )
 	{
 		if ( !icon->Valid() )
 		{
@@ -175,7 +175,7 @@ namespace wal
 		return text.isHotkeyMatching(UnicodeUC(pEvent->Char()))? this:0;
 	}
 
-	void Button::Paint( GC& gc, const crect& paintRect )
+	void Button::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		unsigned colorBg = UiGetColor(uiBackground, uiClassButton, 0, 0x808080); //GetColor(0);
 		crect cr = this->ClientRect();

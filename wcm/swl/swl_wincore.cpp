@@ -328,10 +328,10 @@ namespace wal
 
 
 
-	bool Win::EventMouse( cevent_mouse* pEvent ) {  return false; }
-	bool Win::EventKey( cevent_key* pEvent ) {   return false;}
+	bool Win::EventMouse( cevent_mouse* /*pEvent*/ ) {  return false; }
+	bool Win::EventKey( cevent_key* /*pEvent*/ ) {   return false;}
 
-	bool Win::EventChildKey( Win* child, cevent_key* pEvent ) 
+	bool Win::EventChildKey( Win* /*child*/, cevent_key* pEvent ) 
 	{ 
 		//dbg_printf("Win::EventChildKey key=0x%x mod=%d\n", pEvent->Key(), pEvent->Mod());
 		// check if any child recognizes the key as its hot key
@@ -366,20 +366,20 @@ namespace wal
 
 	bool Win::EventClose() { if ( this->IsModal() ) { EndModal( CMD_CANCEL ); } return true;}
 	bool Win::EventShow( bool ) { return true; }
-	void Win::EventTimer( int tid ) {};
-	bool Win::EventActivate( bool activated, Win* w ) { return false; }
-	void Win::EventEnterLeave( cevent* pEvent ) {}
-	void Win::EventSize( cevent_size* pEvent ) {}
-	void Win::EventMove( cevent_move* pEvent ) {}
-	void Win::ThreadSignal( int id, int data ) {}
-	void Win::ThreadStopped( int id, void* data ) {}
+	void Win::EventTimer( int /*tid*/ ) {};
+	bool Win::EventActivate( bool /*activated*/, Win* /*w*/ ) { return false; }
+	void Win::EventEnterLeave( cevent* /*pEvent*/ ) {}
+	void Win::EventSize( cevent_size* /*pEvent*/ ) {}
+	void Win::EventMove( cevent_move* /*pEvent*/ ) {}
+	void Win::ThreadSignal( int /*id*/, int /*data*/ ) {}
+	void Win::ThreadStopped( int /*id*/, void* /*data*/ ) {}
 
 	bool Win::Command( int id, int subId, Win* win, void* data )
 	{
 		return parent ? parent->Command( id, subId,  win, data ) : false;
 	}
 
-	bool Win::Broadcast( int id, int subId, Win* win, void* data )
+	bool Win::Broadcast( int /*id*/, int /*subId*/, Win* /*win*/, void* /*data*/ )
 	{
 		return false;
 	}
@@ -656,14 +656,25 @@ namespace wal
 		WTHNode(): id( 0 ), w( 0 ), data( 0 ), func( 0 ), fData( 0 ), cmd( 0 ), thNext( 0 ), winNext( 0 ), cmdNext( 0 ) {}
 	};
 
+	inline unsigned mem_hash(void* pmem, int memSize)
+	{
+		unsigned char* pthis = (unsigned char*)pmem;
+		unsigned char* pend = pthis + memSize;
+		unsigned hash = 0;
+		for (; pthis < pend; pthis++)
+			hash = 31 * hash + *pthis;
+		return hash;
+	}
+	
+	
 	inline unsigned th_key( thread_t th )
 	{
-		return thread_info_hash_code(th);
+		return mem_hash(&th, sizeof(thread_t));
 	}
 
 	inline unsigned win_key( Win* w )
 	{
-		return ( unsigned )( w - ( Win* )0 );
+		return mem_hash(&w,sizeof(Win*));
 	}
 
 	class WTHash
@@ -1962,11 +1973,11 @@ begin:
 
 			if ( !t || !*t ) { return 0; }
 
-			bool minus = false;
+			//bool minus = false;
 
 			if ( *t == '-' )
 			{
-				minus = true;
+				//minus = true;
 				t++;
 			}
 

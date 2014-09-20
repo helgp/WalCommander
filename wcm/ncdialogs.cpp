@@ -22,7 +22,7 @@ NCShadowWin::NCShadowWin( Win* parent )
 }
 
 
-void NCShadowWin::Paint( wal::GC& gc, const crect& paintRect )
+void NCShadowWin::Paint( wal::GC& gc, const crect& /*paintRect */)
 {
 	crect cr = ClientRect();
 	gc.SetFillColor( 0 ); //::wcmConfig.whiteStyle ? 0x404040 : 0x01);
@@ -38,12 +38,12 @@ void NCDialog::CloseDialog( int cmd )
 }
 
 
-cfont* NCDialog::GetChildFont( Win* w, int fontId )
+cfont* NCDialog::GetChildFont( Win* /*w*/, int /*fontId */)
 {
 	return dialogFont.ptr();
 }
 
-bool NCDialog::Command( int id, int subId, Win* win, void* data )
+bool NCDialog::Command( int id, int /*subId*/, Win* win, void* /*data */)
 {
 	if ( id && win && win->UiGetClassId() == uiClassButton )
 	{
@@ -422,7 +422,7 @@ bool NCDialog::EventShow( bool show )
 }
 
 
-void NCDialog::Paint( wal::GC& gc, const crect& paintRect )
+void NCDialog::Paint( wal::GC& gc, const crect& /*paintRect*/)
 {
 	int bcolor = UiGetColor( uiBackground, 0, 0, 0x808080 );
 
@@ -1021,7 +1021,7 @@ bool DlgMenu::EventMouse( cevent_mouse* pEvent )
 static int uiFcColor = GetUiID( "first-char-color" );
 static int uiCommentColor = GetUiID( "comment-color" );
 
-void DlgMenu::Paint( wal::GC& gc, const crect& paintRect )
+void DlgMenu::Paint( wal::GC& gc, const crect& /*paintRect */)
 {
 	cfont* font = GetFont();
 	gc.Set( font );

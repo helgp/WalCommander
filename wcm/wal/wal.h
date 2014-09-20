@@ -173,8 +173,8 @@ namespace wal
 	{
 		File _f;
 		char _buf[0x20000];
-		int _size;
-		int _pos;
+		unsigned _size;
+		unsigned _pos;
 		bool FillBuf()
 		{
 			if ( _size < sizeof( _buf ) ) { return false; }
@@ -235,7 +235,7 @@ namespace wal
 //
 /// Mutex
 //
-	inline Mutex::Mutex( bool stat )
+	inline Mutex::Mutex( bool /*stat */)
 	{
 #ifdef _WIN32
 		_static = stat;

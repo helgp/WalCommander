@@ -69,7 +69,7 @@ void PanelSearchWin::Repaint()
 	_static.Repaint();
 }
 
-void PanelSearchWin::Paint( wal::GC& gc, const crect& paintRect )
+void PanelSearchWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	int bc = UiGetColor( uiBackground, 0, 0, 0xD8E9EC );
 	crect r = ClientRect();
@@ -81,12 +81,12 @@ void PanelSearchWin::Paint( wal::GC& gc, const crect& paintRect )
 }
 
 
-cfont* PanelSearchWin::GetChildFont( Win* w, int fontId )
+cfont* PanelSearchWin::GetChildFont( Win* /*w*/, int /*fontId*/ )
 {
 	return dialogFont.ptr();
 }
 
-bool PanelSearchWin::Command( int id, int subId, Win* win, void* data )
+bool PanelSearchWin::Command( int id, int subId, Win* /*win*/, void* /*data*/ )
 {
 	if ( id == CMD_EDITLINE_INFO && subId == SCMD_EDITLINE_CHANGED )
 	{
@@ -143,7 +143,7 @@ bool PanelSearchWin::EventMouse( cevent_mouse* pEvent )
 }
 
 
-bool PanelSearchWin::EventChildKey( Win* child, cevent_key* pEvent )
+bool PanelSearchWin::EventChildKey( Win* /*child*/, cevent_key* pEvent )
 {
 	this->Repaint();
 
@@ -527,6 +527,7 @@ PanelWin::PanelWin( Win* parent, int* mode )
 	NCDialogParent( WT_CHILD, 0, 0, parent ),
 	_lo( 7, 4 ),
 	_scroll( 0, this, true ), //, false), //bug with autohide and layouts
+	_list( ::wcmConfig.panelShowHiddenFiles, ::wcmConfig.panelCaseSensitive ),
 	_itemHeight( 1 ),
 	_rows( 0 ),
 	_cols( 0 ),
@@ -534,8 +535,7 @@ PanelWin::PanelWin( Win* parent, int* mode )
 	_current( 0 ),
 	_viewMode( CheckMode( mode ) ), //MEDIUM),
 	_inOperState( false ),
-	_operData( ( NCDialogParent* )parent ),
-	_list( ::wcmConfig.panelShowHiddenFiles, ::wcmConfig.panelCaseSensitive )
+	_operData( ( NCDialogParent* )parent )
 {
 	_lo.SetLineGrowth( 3 );
 	_lo.SetColGrowth( 1 );
@@ -612,7 +612,7 @@ void PanelWin::SetScroll()
 }
 
 
-bool PanelWin::Command( int id, int subId, Win* win, void* data )
+bool PanelWin::Command( int id, int subId, Win* /*win*/, void* data )
 {
 	if ( id != CMD_SCROLL_INFO )
 	{
@@ -662,7 +662,7 @@ bool PanelWin::Command( int id, int subId, Win* win, void* data )
 	return true;
 }
 
-bool PanelWin::Broadcast( int id, int subId, Win* win, void* data )
+bool PanelWin::Broadcast( int id, int /*subId*/, Win* /*win*/, void* /*data*/ )
 {
 	if ( id == ID_CHANGED_CONFIG_BROADCAST )
 	{
@@ -671,8 +671,8 @@ bool PanelWin::Broadcast( int id, int subId, Win* win, void* data )
 
 		if ( node ) { s.Copy( node->Name() ); }
 
-		bool a = _list.SetShowHidden( wcmConfig.panelShowHiddenFiles );
-		bool b = _list.SetCase( wcmConfig.panelCaseSensitive );
+		/*bool a = */_list.SetShowHidden( wcmConfig.panelShowHiddenFiles );
+		/*bool b = */ _list.SetCase( wcmConfig.panelCaseSensitive );
 
 //		if (a || b)
 //		{
@@ -1668,7 +1668,7 @@ void PanelWin::LoadPath( clPtr<FS> fs, FSPath& paramPath, FSString* current, clP
 
 	FSStat stat;
 	FSCInfo info;
-	int err;
+	//int err;
 
 //	if ( fs->Stat(paramPath, &stat, &err, &info) == -1 ) return;
 
@@ -1695,7 +1695,7 @@ void PanelWin::LoadPath( clPtr<FS> fs, FSPath& paramPath, FSString* current, clP
 	}
 }
 
-void PanelWin::OperThreadSignal( int info )
+void PanelWin::OperThreadSignal( int /*info*/ )
 {
 }
 
@@ -1782,7 +1782,7 @@ void PanelWin::OperThreadStopped()
 void PanelWin::Reread( bool resetCurrent, const FSString& Name )
 {
 	clPtr<cstrhash<bool, unicode_t> > sHash = _list.GetSelectedHash();
-	bool Root = HideDotsInDir();
+	/*bool Root = */HideDotsInDir();
 	FSNode* node = resetCurrent ? 0 : GetCurrent();
 	FSString s;
 
@@ -1801,7 +1801,7 @@ void PanelWin::Reread( bool resetCurrent, const FSString& Name )
 
 bool PanelWin::EventMouse( cevent_mouse* pEvent )
 {
-	bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
+	//bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
 	bool ctrl = ( pEvent->Mod() & KM_CTRL ) != 0;
 
 	switch ( pEvent->Type() )

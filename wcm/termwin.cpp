@@ -41,11 +41,11 @@ void TerminalWin::OnChangeStyles()
 
 TerminalWin::TerminalWin( int nId, Win* parent )
 	: Win( WT_CHILD, 0, parent, 0, nId ),
+	  _currentRows( 1 ),
 	  _lo( 1, 2 ),
 	  _scroll( 0, this, true, false ), //надо пошаманить для автохида
 	  cH( 1 ), cW( 1 ),
-	  _firstRow( 0 ),
-	  _currentRows( 1 )
+	  _firstRow( 0 )
 {
 	_scroll.Enable();
 	_scroll.Show();
@@ -167,7 +167,7 @@ void TerminalWin::CalcScroll()
 }
 
 
-bool TerminalWin::Command( int id, int subId, Win* win, void* data )
+bool TerminalWin::Command( int id, int subId, Win* /*win*/, void* data )
 {
 	if ( id != CMD_SCROLL_INFO )
 	{
@@ -242,7 +242,7 @@ void* RunProcessThreadFunc( void* data )
 				WinThreadSignal( pid );
 				int ret;
 //printf("waitpid %i\n", pid);
-				int r = p->shell->Wait( pid, &ret );
+				/*int r = */p->shell->Wait( pid, &ret );
 //printf("done wait %i (ret=%i)\n", pid, r);
 				WinThreadSignal( -1 );
 			}
@@ -265,10 +265,10 @@ void TerminalWin::Execute( Win* w, int tId, const unicode_t* cmd, const sys_char
 	w->ThreadCreate( tId, RunProcessThreadFunc, p );
 }
 
-void TerminalWin::EventSize( cevent_size* pEvent )
+void TerminalWin::EventSize( cevent_size* /*pEvent*/ )
 {
 	RecalcLayouts();
-	cpoint size = pEvent->Size();
+	//cpoint size = pEvent->Size();
 
 	int W = _rect.Width();
 	int H = _rect.Height();
@@ -279,7 +279,7 @@ void TerminalWin::EventSize( cevent_size* pEvent )
 	Parent()->RecalcLayouts(); //!!!
 }
 
-void TerminalWin::EventTimer( int tid )
+void TerminalWin::EventTimer( int /*tid*/ )
 {
 	if ( IsCaptured() )
 	{
@@ -360,7 +360,7 @@ void TerminalWin::MarkerClear()
 	Invalidate();
 }
 
-void TerminalWin::ThreadSignal( int id, int data )
+void TerminalWin::ThreadSignal( int /*id*/, int /*data*/ )
 {
 //	printf("terminal thread signal id=%i, data=%i\n", id, data);
 
@@ -510,8 +510,8 @@ bool TerminalWin::EventMouse( cevent_mouse* pEvent )
 	lastMousePoint = pt;
 
 
-	bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
-	bool ctrl = ( pEvent->Mod() & KM_CTRL ) != 0;
+	//bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
+	//bool ctrl = ( pEvent->Mod() & KM_CTRL ) != 0;
 
 	switch ( pEvent->Type() )
 	{
@@ -658,7 +658,7 @@ void TerminalWin::DrawRow( wal::GC& gc, int r, int first, int last )
 	}
 }
 
-void TerminalWin::Paint( wal::GC& gc, const crect& paintRect )
+void TerminalWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	crect r = ClientRect();
 

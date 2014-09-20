@@ -550,17 +550,17 @@ namespace wal
 				const char* s = locale_str;
 				int i;
 
-				for ( i = 0 ; i < sizeof( locale_lang ) - 1 && *s && *s != '_' && *s != '.'; i++, s++ ) { locale_lang[i] = *s; }
+				for ( i = 0 ; i < (int)sizeof( locale_lang ) - 1 && *s && *s != '_' && *s != '.'; i++, s++ ) { locale_lang[i] = *s; }
 
 				locale_lang[i] = 0;
 
-				for ( i = 0 ; i < sizeof( locale_ter ) - 1 && *s && *s != '.'; i++, s++ ) { locale_ter[i] = *s; }
+				for ( i = 0 ; i < (int)sizeof( locale_ter ) - 1 && *s && *s != '.'; i++, s++ ) { locale_ter[i] = *s; }
 
 				locale_ter[i] = 0;
 
 				s = locale_str;
 
-				for ( i = 0 ; i < sizeof( locale_lang_ter ) - 1 && *s && *s != '.'; i++, s++ ) { locale_lang_ter[i] = *s; }
+				for ( i = 0 ; i < (int)sizeof( locale_lang_ter ) - 1 && *s && *s != '.'; i++, s++ ) { locale_lang_ter[i] = *s; }
 
 				locale_lang_ter[i] = 0;
 			}

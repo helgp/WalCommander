@@ -91,7 +91,7 @@ namespace wal
 			if ( !signaled ) { return; }
 
 			char c;
-			int ret = read( fd[0], &c, sizeof( c ) );
+			/*int ret = */read( fd[0], &c, sizeof( c ) );
 			signaled = false;
 		};
 

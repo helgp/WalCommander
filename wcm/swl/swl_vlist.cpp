@@ -166,7 +166,7 @@ namespace wal
 		return Win::Command( id, subId, win, data );
 	}
 
-	void VListWin::Paint( GC& gc, const crect& paintRect )
+	void VListWin::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		crect rect = ClientRect();
 
@@ -217,13 +217,13 @@ namespace wal
 		}
 	}
 
-	bool VListWin::EventFocus( bool recv )
+	bool VListWin::EventFocus( bool /*recv*/ )
 	{
 		Invalidate();
 		return true;
 	}
 
-	void VListWin::EventSize( cevent_size* pEvent )
+	void VListWin::EventSize( cevent_size* /*pEvent*/ )
 	{
 		this->CalcScroll();
 		MoveFirst( first );

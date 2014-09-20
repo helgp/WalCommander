@@ -244,8 +244,8 @@ struct EditPoint
 	EditPoint( int l, int p ): line( l ), pos( p ) {}
 	void Set( int l, int c ) { line = l; pos = c; }
 
-	bool operator < ( const EditPoint& a ) const { return line < a.line || line == a.line && pos < a.pos; }
-	bool operator <= ( const EditPoint& a ) const { return line < a.line || line == a.line && pos <= a.pos; }
+	bool operator < ( const EditPoint& a ) const { return (line < a.line) || (line == a.line && pos < a.pos); }
+	bool operator <= ( const EditPoint& a ) const { return (line < a.line) || (line == a.line && pos <= a.pos); }
 	bool operator != ( const EditPoint& a ) const { return line != a.line || pos != a.pos; }
 	bool operator == ( const EditPoint& a ) const { return line == a.line && pos == a.pos; }
 };
@@ -292,8 +292,8 @@ struct UndoBlock: public iIntrusiveCounter
 	EditPoint beginMarker;
 	EditPoint endCursor;
 	EditPoint endMarker;
-	int count;
 	UndoRec* first, *last;
+	int count;
 
 	void SetBeginPos( EditPoint cur, EditPoint marker )
 	{
@@ -460,7 +460,7 @@ class EditScreen
 public:
 	EditPoint prevCursor, cursor;
 
-	EditScreen(): rows( 0 ), cols( 0 ), prevCursor( -1, 0 ), cursor( -1, 0 ), data_rows( 0 ), data_cols( 0 ) {}
+	EditScreen(): rows( 0 ), cols( 0 ), data_rows( 0 ), data_cols( 0 ), prevCursor( -1, 0 ), cursor( -1, 0 ){}
 	void Alloc( int r, int c )
 	{
 		if ( r > 0 && c > 0 && ( r > data_rows ||  c > data_cols ) )
@@ -537,7 +537,7 @@ class EditWin : public Win
 	unsigned ColorById( int id );
 	void RefreshShl( int n );
 
-	bool InMark( const EditPoint& p ) { return cursor <= p && p < marker || marker <= p && p < cursor; }
+	bool InMark( const EditPoint& p ) { return (cursor <= p && p < marker) || (marker <= p && p < cursor); }
 	void SendChanges() { if ( Parent() ) { Parent()->SendBroadcast( CMD_NCEDIT_INFO, CMD_NCEDIT_CHANGES, this, 0, 2 ); } }
 
 	void CalcScroll();
@@ -656,10 +656,9 @@ public:
 	EditPoint GetCursorPos() const { return cursor; }
 	void SetCursorPos( EditPoint p );
 
-	#pragma region Save/restore the complete position of the editor
+	// Save/restore the complete position of the editor
 	sEditorScrollCtx GetScrollCtx() const;
 	void SetScrollCtx( const sEditorScrollCtx& Ctx );
-	#pragma endregion
 
 	int GetCursorCol();
 	int GetCursorLine() { return cursor.line; }

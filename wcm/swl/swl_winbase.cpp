@@ -62,7 +62,7 @@ namespace wal
 
 #endif
 
-	static cfont* _SysGetFont( Win* w, int fontId )
+	static cfont* _SysGetFont( Win* /*w*/, int /*fontId*/ )
 	{
 		return guiFont;
 	}
@@ -149,7 +149,7 @@ namespace wal
 		return p;
 	}
 
-	void DrawStaticText( GC& gc, int x, int y, const unicode_t* s, cfont* font, bool transparent )
+	void DrawStaticText( GC& gc, int x, int y, const unicode_t* s, cfont* font, bool /*transparent*/ )
 	{
 		if ( font ) { gc.Set( font ); }
 
@@ -213,7 +213,7 @@ namespace wal
 	}
 
 
-	void StaticLine::Paint( GC& gc, const crect& paintRect )
+	void StaticLine::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		crect rect = ClientRect();
 		gc.SetFillColor( UiGetColor( uiBackground, 0, 0, 0xFFFFFF )/*GetColor(0)*/ );
@@ -253,7 +253,7 @@ namespace wal
 		Move( crect( x, y, x + p.x + 4, y + p.y + 2 ) );
 	}
 
-	void TBToolTip::Paint( wal::GC& gc, const crect& paintRect )
+	void TBToolTip::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 	{
 		gc.SetFillColor( UiGetColor( uiBackground, 0, 0, 0xFFFFFF )/*GetColor(IC_BG)*/ ); //0x80FFFF);
 		crect r = ClientRect();

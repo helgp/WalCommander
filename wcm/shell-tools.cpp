@@ -139,7 +139,7 @@ ShellLoadDirDialog::ShellLoadDirDialog( NCDialogParent* parent, clPtr<FS> fs, FS
 	}
 }
 
-void ShellLoadDirDialog::ThreadStopped( int id, void* data )
+void ShellLoadDirDialog::ThreadStopped( int /*id*/, void* /*data*/ )
 {
 	EndModal( CMD_OK );
 }
@@ -402,7 +402,7 @@ public:
 
 int ShellFileDlg::UiGetClassId() { return GetUiID( "TabDialog" ); }
 
-bool ShellFileDlg::Command( int id, int subId, Win* win, void* d )
+bool ShellFileDlg::Command( int id, int subId, Win* win, void* /*d*/ )
 {
 	if ( id == CMD_ITEM_CLICK && win == &list )
 	{

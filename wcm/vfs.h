@@ -297,7 +297,7 @@ struct FSFtpParam
 #else
 		charset( sys_charset_id ),
 #endif
-		anonymous( true ), isSet( false ), passive( true ) {}
+		anonymous( true ), passive( true ), isSet( false ) {}
 
 	void GetConf( StrConfig& conf )
 	{

@@ -57,7 +57,7 @@ namespace SHL
 		std::vector<char> buf2;
 		char* p;
 
-		if ( l >= sizeof( buf ) )
+		if ( l >= (int)sizeof( buf ) )
 		{
 			buf2.resize( l + 1 );
 			p = buf2.data();
@@ -210,8 +210,8 @@ namespace SHL
 		{
 			int c;
 
-			if (  _words && _words->Exist( ( const char* )first, ( const char* )s, &c ) ||
-			      _ns_words && _ns_words->Exist( ( const char* )first, ( const char* )s, &c ) )
+			if (  (_words && _words->Exist( ( const char* )first, ( const char* )s, &c ) ) ||
+			      (_ns_words && _ns_words->Exist( ( const char* )first, ( const char* )s, &c )) )
 			{
 				*pColor =  ( c >= 0 ) ? c : _color;
 			}
@@ -1190,7 +1190,7 @@ begin:
 			delete t;
 		};
 	}
-
+/*
 	static void ParzeStrList( StrList& slist, ShlParzer& parzer )
 	{
 		while ( true )
@@ -1207,7 +1207,7 @@ begin:
 			parzer.Next();
 		}
 	}
-
+*/
 ///////////////////////// ShlConf
 
 	ShlConf::ShlConf()

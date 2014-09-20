@@ -197,8 +197,8 @@ VFile::VFile()
 VFile::VFile( clPtr<FS> _fs, FSPath _path, seek_t size, int tabSize )
 	:  useCount( 0 ),
 	   fs( _fs ),
-	   fd( -1 ),
 	   path( _path ),
+	   fd( -1 ),
 	   blockCount( 0 ), _offset( 0 ), _size( size ),
 	   _tabSize( tabSize ),
 	   _lastMTime( 0 )
@@ -260,7 +260,7 @@ seek_t VFile::Align( seek_t x, charset_struct* charset, FSCInfo* info )
 
 	char* s = buf + a;
 
-	if ( *s >= 0 && *s <= ' ' || s[-1] >= 0 && s[-1] <= ' ' ) { return x; }
+	if ( (*s >= 0 && *s <= ' ') || (s[-1] >= 0 && s[-1] <= ' ') ) { return x; }
 
 	s = charset->GetPrev( s + 1, buf );
 	return s ? ( x - a ) + ( s - buf ) : x;
@@ -480,6 +480,7 @@ VDataPtr VFile::_Get( long bn, FSCInfo* info, bool lockMutex )
 	return ptr;
 }
 
+/*
 static const unsigned char* StrLastNL( const unsigned char* ptr, int n )
 {
 	if ( !ptr ) { return 0; }
@@ -491,7 +492,6 @@ static const unsigned char* StrLastNL( const unsigned char* ptr, int n )
 
 	return last;
 }
-
 static const unsigned char* StrFirstNL( const unsigned char* ptr, int n )
 {
 	if ( !ptr ) { return 0; }
@@ -501,6 +501,7 @@ static const unsigned char* StrFirstNL( const unsigned char* ptr, int n )
 
 	return 0;
 }
+*/
 
 
 seek_t VFile::GetPrevLine( seek_t filePos,  int* pCols, charset_struct* charset, bool* nlFound, FSCInfo* info )
@@ -512,7 +513,7 @@ seek_t VFile::GetPrevLine( seek_t filePos,  int* pCols, charset_struct* charset,
 	if ( nlFound ) { *nlFound = false; }
 
 	char buf[0x100];
-	int n = filePos > sizeof( buf ) ? sizeof( buf ) : filePos;
+	int n = filePos > (seek_t)sizeof( buf ) ? sizeof( buf ) : (int)filePos;
 	filePos -= n;
 	int count = ReadBlock( filePos, buf, n, info );
 
@@ -928,7 +929,7 @@ inline int VStrWrapCount( int lineCols, int cols )
 void* ViewerThread( void* param )
 {
 	static const int HSTEP = 20;
-	static const int tabSize = 8;
+	//static const int tabSize = 8;
 
 	ASSERT( param );
 	ViewerThreadData* tData = ( ViewerThreadData* ) param;
@@ -1523,7 +1524,7 @@ void* ViewerThread( void* param )
 				while ( count > 0 )
 				{
 					unsigned char buf[0x100];
-					int n = count > sizeof( buf ) ? sizeof( buf ) : count;
+					int n = std::min(count, (int)sizeof( buf ));
 					n = file->ReadBlock( offset, ( char* )buf, n, &tData->info );
 
 					if ( n <= 0 ) { break; }
@@ -1726,9 +1727,9 @@ void* ViewerThread( void* param )
 ViewWin::ViewWin( Win* parent )
 	:   Win( WT_CHILD, 0, parent, 0, 0 ),
 	    _lo( 5, 5 ),
+	    threadData( 0 ),
 	    vscroll( 0, this, true, false ),
 	    hscroll( 0, this, false, true ),
-	    threadData( 0 ),
 	    charset( charset_table[GetFirstOperCharsetId()] ),
 	    wrap( true ),
 	    hex( false ),
@@ -1878,7 +1879,7 @@ bool ViewWin::CalcSize()
 	return false;
 }
 
-void ViewWin::ThreadSignal( int id, int data )
+void ViewWin::ThreadSignal( int id, int /*data*/ )
 {
 	if ( threadData && threadData->Id() == id )
 	{
@@ -1909,7 +1910,7 @@ void ViewWin::ThreadSignal( int id, int data )
 	Invalidate(); //temp
 }
 
-void ViewWin::EventSize( cevent_size* pEvent )
+void ViewWin::EventSize( cevent_size* /*pEvent*/ )
 {
 	CalcSize();
 }
@@ -1920,7 +1921,7 @@ bool ViewWin::EventKey( cevent_key* pEvent )
 
 	if ( pEvent->Type() == EV_KEYDOWN )
 	{
-		bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
+		//bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
 		bool ctrl = ( pEvent->Mod() & KM_CTRL ) != 0;
 
 		if ( ctrl )
@@ -2128,7 +2129,7 @@ static void ViewPreparHexModeText( unicode_t* inStr, char* inAttr, unicode_t* u,
 	}
 }
 
-static void ViewDrawPreparedText( ViewerColors* viewerColors,  wal::GC& gc, int x, int y, unicode_t* s, char* type, int count, int charH, int charW )
+static void ViewDrawPreparedText( ViewerColors* viewerColors,  wal::GC& gc, int x, int y, unicode_t* s, char* type, int count, int /*charH*/, int charW )
 {
 	while ( count > 0 )
 	{
@@ -2192,7 +2193,7 @@ static void ViewDrawText( ViewerColors* viewerColors, wal::GC& gc, unicode_t* s,
 }
 
 
-void ViewWin::Paint( wal::GC& gc, const crect& paintRect )
+void ViewWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	crect rect = this->ClientRect();
 
@@ -2751,7 +2752,7 @@ VSearchDialog::~VSearchDialog()
 	}
 }
 
-void VSearchDialog::ThreadStopped( int id, void* data )
+void VSearchDialog::ThreadStopped( int /*id*/, void* /*data*/ )
 {
 	EndModal( CMD_OK );
 }

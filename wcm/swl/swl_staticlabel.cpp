@@ -22,7 +22,7 @@ namespace wal
 		}
 	}
 
-	void StaticLabel::Paint(GC& gc, const crect& paintRect)
+	void StaticLabel::Paint(GC& gc, const crect& /*paintRect*/)
 	{
 		crect rect = ClientRect();
 		gc.SetFillColor(UiGetColor(uiBackground, uiClassStaticLabel, 0, 0xFFFFFF)/*GetColor(0)*/);

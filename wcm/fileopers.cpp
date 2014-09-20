@@ -350,7 +350,7 @@ public:
 		srcList.clear();
 
 		pathChanged = false;
-		unsigned64 infoCount = 0;
+		//unsigned64 infoCount = 0;
 		infoSrcUri.Clear();
 		infoDstUri.Clear();
 		progressChanged = false;
@@ -777,7 +777,7 @@ void OperFileNameWin::SetText( const unicode_t* s )
 	Invalidate();
 }
 
-void OperFileNameWin::Paint( wal::GC& gc, const crect& paintRect )
+void OperFileNameWin::Paint( wal::GC& gc, const crect& /*paintRect */)
 {
 	crect rect = ClientRect();
 	gc.SetFillColor( UiGetColor( uiBackground, 0, 0, 0xFFFFFF ) );
@@ -828,7 +828,7 @@ public:
 	virtual ~NCNumberWin();
 };
 
-void NCNumberWin::Paint( wal::GC& gc, const crect& paintRect )
+void NCNumberWin::Paint( wal::GC& gc, const crect& /*paintRect */)
 {
 	crect rect = ClientRect();
 	gc.SetFillColor( UiGetColor( uiBackground, 0, 0, 0xFFFFFF ) );
@@ -934,7 +934,7 @@ static void FillHorisont( wal::GC& gc, crect rect, unsigned a, unsigned b )
 
 }
 
-void NCProgressWin::Paint( wal::GC& gc, const crect& paintRect )
+void NCProgressWin::Paint( wal::GC& gc, const crect& /*paintRect */)
 {
 	crect rect = ClientRect();
 	int w = rect.Width();
@@ -1751,7 +1751,7 @@ bool OperCFThread::Move( FS* srcFs, FSPath& __srcPath, FSList* list, FS* destFs,
 			destPath.SetItemStr( destPos, list->First()->Name() );
 		}
 
-		FSNode* node = list->First();
+		//FSNode* node = list->First();
 
 		srcPath.SetItemStr( srcPos, list->First()->Name() );
 

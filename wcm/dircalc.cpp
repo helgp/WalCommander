@@ -369,7 +369,7 @@ static unicode_t* PrintableSizeStr( unicode_t buf[64], int64 size )
 	seek_t num = size;
 
 	char dig[64];
-	char* end = unsigned_to_char<seek_t>( num, dig );
+	/*char* end = */unsigned_to_char<seek_t>( num, dig );
 	int l = strlen( dig );
 
 	unicode_t* us = buf;
@@ -433,7 +433,7 @@ void DirCalcThreadWin::RefreshCounters()
 	if ( curBadDirs != bad ) { SetStaticLineInt64( badDirsNum, bad ); curBadDirs = bad; }
 }
 
-void DirCalcThreadWin::OperThreadSignal( int info )
+void DirCalcThreadWin::OperThreadSignal( int /*info */)
 {
 	RefreshCounters();
 

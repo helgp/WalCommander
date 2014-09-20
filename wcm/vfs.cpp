@@ -15,33 +15,33 @@
 #endif
 
 ///////////////////////////////////////////////////  FS /////////////////////////////
-int FS::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info ) { SetError( err, 0 ); return -1; }
-int FS::OpenCreate   ( FSPath& path, bool overwrite, int mode, int flags, int* err, FSCInfo* info ) { SetError( err, 0 ); return -1; }
-int FS::Close  ( int fd, int* err, FSCInfo* info )            { SetError( err, 0 ); return -1; }
-int FS::Read   ( int fd, void* buf, int size, int* err, FSCInfo* info )      { SetError( err, 0 ); return -1; }
-int FS::Write  ( int fd, void* buf, int size, int* err, FSCInfo* info )      { SetError( err, 0 ); return -1; }
-int FS::Seek   ( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* err, FSCInfo* info )   { SetError( err, 0 ); return -1; }
-int FS::Rename ( FSPath&  oldpath, FSPath& newpath, int* err, FSCInfo* info )   { SetError( err, 0 ); return -1; }
-int FS::MkDir  ( FSPath& path, int mode, int* err,  FSCInfo* info )    { SetError( err, 0 ); return -1; }
-int FS::Delete ( FSPath& path, int* err, FSCInfo* info )            { SetError( err, 0 ); return -1; }
-int FS::RmDir  ( FSPath& path, int* err, FSCInfo* info )            { SetError( err, 0 ); return -1; }
-int FS::SetFileTime  ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* info )  { SetError( err, 0 ); return -1; }
-int FS::ReadDir   ( FSList* list, FSPath& path,  int* err, FSCInfo* info )    { SetError( err, 0 ); return -1; }
-int FS::Stat( FSPath& path, FSStat* st, int* err, FSCInfo* info )         { SetError( err, 0 ); return -1; }
-int FS::FStat( int fd, FSStat* st, int* err, FSCInfo* info )     { SetError( err, 0 ); return -1; }
-int FS::Symlink   ( FSPath& path, FSString& str, int* err, FSCInfo* info )      { SetError( err, 0 ); return -1; }
-int64 FS::GetFileSystemFreeSpace( FSPath& path, int* err ) { SetError( err, 0 ); return -1; }
+int FS::OpenRead  ( FSPath& /*path*/, int /*flags*/, int* err, FSCInfo* /*info*/ ) { SetError( err, 0 ); return -1; }
+int FS::OpenCreate   ( FSPath& /*path*/, bool /*overwrite*/, int /*mode*/, int /*flags*/, int* err, FSCInfo* /*info*/ ) { SetError( err, 0 ); return -1; }
+int FS::Close  ( int /*fd*/, int* err, FSCInfo* /*info*/ )            { SetError( err, 0 ); return -1; }
+int FS::Read   ( int /*fd*/, void* /*buf*/, int /*size*/, int* err, FSCInfo* /*info */)      { SetError( err, 0 ); return -1; }
+int FS::Write  ( int /*fd*/, void* /*buf*/, int /*size*/, int* err, FSCInfo* /*info*/ )      { SetError( err, 0 ); return -1; }
+int FS::Seek   ( int /*fd*/, SEEK_FILE_MODE /*mode*/, seek_t /*pos*/, seek_t* /*pRet*/,  int* err, FSCInfo* /*info*/ )   { SetError( err, 0 ); return -1; }
+int FS::Rename ( FSPath&  /*oldpath*/, FSPath& /*newpath*/, int* err, FSCInfo* /*info*/ )   { SetError( err, 0 ); return -1; }
+int FS::MkDir  ( FSPath& /*path*/, int /*mode*/, int* err,  FSCInfo* /*info*/ )    { SetError( err, 0 ); return -1; }
+int FS::Delete ( FSPath& /*path*/, int* err, FSCInfo* /*info*/ )            { SetError( err, 0 ); return -1; }
+int FS::RmDir  ( FSPath& /*path*/, int* err, FSCInfo* /*info*/ )            { SetError( err, 0 ); return -1; }
+int FS::SetFileTime  ( FSPath& /*path*/, FSTime /*aTime*/, FSTime /*mTime*/, int* err, FSCInfo* /*info*/ )  { SetError( err, 0 ); return -1; }
+int FS::ReadDir   ( FSList* /*list*/, FSPath& /*path*/,  int* err, FSCInfo* /*info*/ )    { SetError( err, 0 ); return -1; }
+int FS::Stat( FSPath& /*path*/, FSStat* /*st*/, int* err, FSCInfo* /*info*/ )         { SetError( err, 0 ); return -1; }
+int FS::FStat( int /*fd*/, FSStat* /*st*/, int* err, FSCInfo* /*info*/ )     { SetError( err, 0 ); return -1; }
+int FS::Symlink   ( FSPath& /*path*/, FSString& /*str*/, int* err, FSCInfo* /*info*/ )      { SetError( err, 0 ); return -1; }
+int64 FS::GetFileSystemFreeSpace( FSPath& /*path*/, int* err ) { SetError( err, 0 ); return -1; }
 
-unicode_t* FS::GetUserName( int user, unicode_t buf[64] ) { buf[0] = 0; return buf; };
-unicode_t* FS::GetGroupName( int group, unicode_t buf[64] ) { buf[0] = 0; return buf; };
+unicode_t* FS::GetUserName( int /*user*/, unicode_t buf[64] ) { buf[0] = 0; return buf; };
+unicode_t* FS::GetGroupName( int /*group*/, unicode_t buf[64] ) { buf[0] = 0; return buf; };
 
 FS::~FS() {}
 
 ////////////////////////////////////// FSCInfo
-bool FSCInfo::SmbLogon( FSSmbParam* a ) { return false; }
-bool FSCInfo::FtpLogon( FSFtpParam* a ) { return false; }
+bool FSCInfo::SmbLogon( FSSmbParam* /*a*/ ) { return false; }
+bool FSCInfo::FtpLogon( FSFtpParam* /*a*/ ) { return false; }
 bool FSCInfo::Stopped() { return false; }
-bool FSCInfo::Prompt( const unicode_t* header, const unicode_t* message, FSPromptData* p, int count ) { return false; }
+bool FSCInfo::Prompt( const unicode_t* /*header*/, const unicode_t* /*message*/, FSPromptData* /*p*/, int /*count*/ ) { return false; }
 FSCInfo::~FSCInfo() {}
 
 ////////////////////////////////////// FSCSimpleInfo
@@ -1032,7 +1032,7 @@ bool FSSys::Equal( FS* fs )
 }
 
 
-int FSSys::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info )
+int FSSys::OpenRead  ( FSPath& path, int /*flags*/, int* err, FSCInfo* /*info*/ )
 {
 	int n =  open( ( char* ) path.GetString( sys_charset_id, '/' ),
 	               O_RDONLY | OPENFLAG_LARGEFILE, 0 );
@@ -1043,7 +1043,7 @@ int FSSys::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info )
 }
 
 
-int FSSys::OpenCreate   ( FSPath& path, bool overwrite, int mode, int flags,   int* err, FSCInfo* info )
+int FSSys::OpenCreate   ( FSPath& path, bool overwrite, int mode, int /*flags*/,   int* err, FSCInfo* /*info*/ )
 {
 	int n =  open( ( char* ) path.GetString( sys_charset_id, '/' ),
 	               O_CREAT | O_WRONLY | O_TRUNC | OPENFLAG_LARGEFILE | ( overwrite ? 0 : O_EXCL ) , mode );
@@ -1053,7 +1053,7 @@ int FSSys::OpenCreate   ( FSPath& path, bool overwrite, int mode, int flags,   i
 	return n;
 }
 
-int FSSys::Close( int fd, int* err, FSCInfo* info )
+int FSSys::Close( int fd, int* err, FSCInfo* /*info*/ )
 {
 	if ( close( fd ) )
 	{
@@ -1064,7 +1064,7 @@ int FSSys::Close( int fd, int* err, FSCInfo* info )
 	return 0;
 }
 
-int FSSys::Read( int fd, void* buf, int size, int* err, FSCInfo* info )
+int FSSys::Read( int fd, void* buf, int size, int* err, FSCInfo* /*info*/ )
 {
 	int n = read( fd, buf, size );
 
@@ -1073,7 +1073,7 @@ int FSSys::Read( int fd, void* buf, int size, int* err, FSCInfo* info )
 	return n;
 }
 
-int FSSys::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* err, FSCInfo* info )
+int FSSys::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* err, FSCInfo* /*info*/ )
 {
 
 	seek_t n =  lseek( fd, pos, mode );
@@ -1086,7 +1086,7 @@ int FSSys::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* er
 }
 
 
-int FSSys::Write( int fd, void* buf, int size, int* err, FSCInfo* info )
+int FSSys::Write( int fd, void* buf, int size, int* err, FSCInfo* /*info*/ )
 {
 	int n = write( fd, buf, size );
 
@@ -1095,7 +1095,7 @@ int FSSys::Write( int fd, void* buf, int size, int* err, FSCInfo* info )
 	return n;
 }
 
-int FSSys::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* info )
+int FSSys::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* /*info*/ )
 {
 	if ( rename( ( char* ) oldpath.GetString( sys_charset_id, '/' ), ( char* ) newpath.GetString( sys_charset_id, '/' ) ) )
 	{
@@ -1106,7 +1106,7 @@ int FSSys::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* info 
 	return 0;
 }
 
-int FSSys::MkDir( FSPath& path, int mode, int* err,  FSCInfo* info )
+int FSSys::MkDir( FSPath& path, int mode, int* err,  FSCInfo* /*info*/ )
 {
 	if ( mkdir( ( char* ) path.GetString( sys_charset_id, '/' ), mode ) )
 	{
@@ -1118,7 +1118,7 @@ int FSSys::MkDir( FSPath& path, int mode, int* err,  FSCInfo* info )
 
 }
 
-int FSSys::Delete( FSPath& path, int* err, FSCInfo* info )
+int FSSys::Delete( FSPath& path, int* err, FSCInfo* /*info*/ )
 {
 	if ( unlink( ( char* ) path.GetString( sys_charset_id, '/' ) ) )
 	{
@@ -1129,7 +1129,7 @@ int FSSys::Delete( FSPath& path, int* err, FSCInfo* info )
 	return 0;
 }
 
-int FSSys::RmDir( FSPath& path, int* err, FSCInfo* info )
+int FSSys::RmDir( FSPath& path, int* err, FSCInfo* /*info*/ )
 {
 	if ( rmdir( ( char* ) path.GetString( sys_charset_id, '/' ) ) )
 	{
@@ -1141,7 +1141,7 @@ int FSSys::RmDir( FSPath& path, int* err, FSCInfo* info )
 }
 
 
-int FSSys::SetFileTime  ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* info )
+int FSSys::SetFileTime  ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* /*info*/ )
 {
 	struct timeval tv[2];
 	tv[0].tv_sec  = aTime;
@@ -1248,7 +1248,7 @@ int64 FSSys::GetFileSystemFreeSpace( FSPath& path, int* err )
 	return ( int64 )( s.f_bfree ) * ( int64 )( s.f_bsize );
 }
 
-int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* info )
+int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* /*info*/ )
 {
 	fsStat->link.Clear();
 
@@ -1266,7 +1266,7 @@ int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* info )
 		char buf[1024];
 		ssize_t ret = readlink( ( char* )path.GetString( sys_charset_id ), buf, sizeof( buf ) );
 
-		if ( ret >= sizeof( buf ) ) { ret = sizeof( buf ) - 1; }
+		if ( ret >= (int)sizeof( buf ) ) { ret = sizeof( buf ) - 1; }
 
 		if ( ret >= 0 ) { buf[ret] = 0; }
 		else { buf[0] = 0; }
@@ -1309,7 +1309,7 @@ int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* info )
 	return 0;
 }
 
-int FSSys::FStat( int fd, FSStat* fsStat, int* err, FSCInfo* info )
+int FSSys::FStat( int fd, FSStat* fsStat, int* err, FSCInfo* /*info*/ )
 {
 	fsStat->link.Clear();
 
@@ -1334,7 +1334,7 @@ int FSSys::FStat( int fd, FSStat* fsStat, int* err, FSCInfo* info )
 }
 
 
-int FSSys::Symlink( FSPath& path, FSString& str, int* err, FSCInfo* info )
+int FSSys::Symlink( FSPath& path, FSString& str, int* err, FSCInfo* /*info*/ )
 {
 	if ( symlink( ( char* )str.Get( sys_charset_id ), ( char* )path.GetString( sys_charset_id ) ) )
 	{

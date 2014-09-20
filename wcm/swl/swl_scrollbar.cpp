@@ -134,7 +134,7 @@ namespace wal
 //	EventSize(&cevent_size(cpoint(r.Width(),r.Height())));
 	}
 
-	void ScrollBar::Paint( GC& gc, const crect& paintRect )
+	void ScrollBar::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		crect cr = ClientRect();
 		unsigned bgColor = UiGetColor( uiBackground, 0, 0, 0xD8E9EC );/*GetColor(IC_SCROLL_BG)*/;

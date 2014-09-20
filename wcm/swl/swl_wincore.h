@@ -825,12 +825,12 @@ namespace wal
 
 	struct UiValueNode: public iIntrusiveCounter
 	{
+		std::vector<char> s;
 		enum {INT = 1, STR = 2};
 		int flags;
 		int64 i;
-		std::vector<char> s;
 
-		UiValueNode( int64 n ): i( n ), flags( INT ) {};
+		UiValueNode( int64 n ): flags( INT ), i( n ) {};
 		UiValueNode( const char* a ): s( new_char_str( a ) ), flags( STR ) {}
 
 		int64 Int();
@@ -1087,7 +1087,7 @@ namespace wal
 		virtual bool EventChildKey( Win* child, cevent_key* pEvent );
 		// overridden in dialog elements to help dialog winow to find child that matches the hotkey
 		// returns window to activate on the hotkey, or 0 if the key is unknown
-		virtual Win* IsHisHotKey(cevent_key* pEvent){ return 0; }; 
+		virtual Win* IsHisHotKey(cevent_key* /*pEvent*/){ return 0; }; 
 		virtual bool EventKey(cevent_key* pEvent);
 		virtual bool EventFocus( bool recv );
 		virtual bool EventActivate( bool activated, Win* w );

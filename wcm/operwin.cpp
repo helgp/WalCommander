@@ -169,7 +169,7 @@ void OperThreadWin::RunNewThread( const char* info, OperThreadFunc f, void* data
 	}
 }
 
-void OperThreadWin::ThreadSignal( int id, int data )
+void OperThreadWin::ThreadSignal( int /*id*/, int data )
 {
 	if ( data == 1 )
 	{
@@ -201,10 +201,10 @@ void OperThreadWin::ThreadSignal( int id, int data )
 	}
 }
 
-void OperThreadWin::OperThreadSignal( int data ) {}
+void OperThreadWin::OperThreadSignal( int /*data*/ ) {}
 void OperThreadWin::OperThreadStopped() {}
 
-void OperThreadWin::ThreadStopped( int id, void* data )
+void OperThreadWin::ThreadStopped( int id, void* /*data*/ )
 {
 	MutexLock lock( &operMutex );
 

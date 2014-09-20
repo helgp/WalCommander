@@ -17,15 +17,15 @@ class FtpLogonDialog: public NCVertDialog
 	Layout iL;
 public:
 	StaticLabel serverText;
+	SButton  anonymousButton;
 	StaticLabel userText;
 	StaticLabel passwordText;
 	StaticLabel portText;
-	int charset;
 	StaticLabel charsetText;
+	int charset;
 	StaticLine charsetIdText;
 
 	EditLine serverEdit;
-	SButton  anonymousButton;
 	EditLine userEdit;
 	EditLine passwordEdit;
 	EditLine portEdit;

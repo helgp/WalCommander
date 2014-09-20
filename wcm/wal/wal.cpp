@@ -7,7 +7,7 @@
 namespace wal
 {
 
-	static void def_thread_error_func( int err, const char* msg, const char* file, int* line )
+	static void def_thread_error_func( int /*err*/, const char* msg, const char* /*file*/, int* /*line*/ )
 	{
 		if ( !msg ) { msg = ""; }
 

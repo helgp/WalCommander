@@ -260,7 +260,7 @@ extern SearchAndReplaceParams searchParams;
 
 static crect acWinRect( 0, 0, 850, 500 );
 
-static unicode_t panelButtonStr[] = {'*', 0};
+//static unicode_t panelButtonStr[] = {'*', 0};
 
 void NCWin::SetToolbarPanel()
 {
@@ -394,29 +394,27 @@ void NCWin::UpdateAutoComplete( const std::vector<unicode_t>& CurrentCommand )
 NCWin::NCWin()
 	:  NCDialogParent( WT_MAIN, WH_SYSMENU | WH_RESIZE | WH_MINBOX | WH_MAXBOX | WH_USEDEFPOS, uiClassNCWin, 0, &acWinRect ),
 	   _lo( 5, 1 ),
-	   _terminal( 0, this ),
 	   _lpanel( 1, 2 ),
 	   _ledit( 1, 2 ),
 	   _buttonWin( this ),
-
 	   _leftPanel( this, &wcmConfig.panelModeLeft ),
 	   _rightPanel( this, &wcmConfig.panelModeRight ),
-
+		m_AutoCompleteList( Win::WT_CHILD, Win::WH_TABFOCUS | WH_CLICKFOCUS, 0, this, VListWin::SINGLE_SELECT, VListWin::BORDER_3D, NULL ),
 	   _edit( uiCommandLine, this, 0, 0, 10, false ),
-	   _editPref( this ),
+	   _terminal( 0, this ),
 		_activityNotification( this ),
+	   _editPref( this ),
 	   _panel( &_leftPanel ),
 	   _menu( 0, this ),
 	   _toolBar( this, 0, 16 ),
-	   _mode( PANEL ),
-	   _panelVisible( true ),
 	   _viewer( this ),
 	   _vhWin( this, &_viewer ),
 	   _editor( this ),
 	   _ehWin( this, &_editor ),
-	   _execId( -1 ),
+	   _panelVisible( true ),
+	   _mode( PANEL ),
 	   _shiftSelectType( -1 ),
-		m_AutoCompleteList( Win::WT_CHILD, Win::WH_TABFOCUS | WH_CLICKFOCUS, 0, this, VListWin::SINGLE_SELECT, VListWin::BORDER_3D, NULL )
+	   _execId( -1 )
 {
 	m_BackgroundActivity = eBackgroundActivity_None;
 
@@ -1076,7 +1074,7 @@ void NCWin::ReturnToDefaultSysDir()
 	}
 
 #else
-	int r = chdir( "/" );
+	/*int r = */chdir( "/" );
 #endif
 }
 
@@ -1131,7 +1129,7 @@ void NCWin::Home( PanelWin* p )
 }
 
 
-void NCWin::StartExecute( const unicode_t* cmd, FS* fs,  FSPath& path )
+void NCWin::StartExecute( const unicode_t* cmd, FS* /*fs*/,  FSPath& path )
 {
 #ifdef _WIN32
 	_history.Put( cmd );
@@ -1895,7 +1893,7 @@ void NCWin::Delete()
 
 	if ( _mode != PANEL ) { return; }
 
-	int cur = _panel->Current();
+	//int cur = _panel->Current();
 
 	clPtr<FSList> list = _panel->GetSelectedList();
 
@@ -1955,7 +1953,7 @@ void NCWin::Copy( bool shift )
 
 	if ( _mode != PANEL ) { return; }
 
-	int cur = _panel->Current();
+	//int cur = _panel->Current();
 
 	clPtr<FSList> list = _panel->GetSelectedList();
 
@@ -2011,7 +2009,7 @@ void NCWin::Move( bool shift )
 
 	if ( _mode != PANEL ) { return; }
 
-	int cur = _panel->Current();
+	//int cur = _panel->Current();
 
 	clPtr<FSList> list = _panel->GetSelectedList();
 
@@ -2780,7 +2778,7 @@ bool NCWin::StartCommand( const std::vector<unicode_t>& cmd, bool ForceNoTermina
 	return true;
 }
 
-bool NCWin::OnKeyDown( Win* w, cevent_key* pEvent, bool pressed )
+bool NCWin::OnKeyDown( Win* /*w*/, cevent_key* pEvent, bool pressed )
 {
 	if ( Blocked() ) { return false; }
 
@@ -3536,7 +3534,7 @@ void NCWin::ThreadSignal( int id, int data )
 	if ( id == 1 ) { _execId = data; }
 }
 
-void NCWin::ThreadStopped( int id, void* data )
+void NCWin::ThreadStopped( int /*id*/, void* /*data*/ )
 {
 	_execId = -1;
 	_execSN[0] = 0;
@@ -3545,7 +3543,7 @@ void NCWin::ThreadStopped( int id, void* data )
 	_rightPanel.Reread();
 }
 
-bool NCWin::Command( int id, int subId, Win* win, void* data )
+bool NCWin::Command( int id, int /*subId*/, Win* /*win*/, void* /*data*/ )
 {
 	if ( id == 0 ) { return true; }
 
@@ -4060,7 +4058,7 @@ int ButtonWin::UiGetClassId()
 	return uiClassButtonWin;
 }
 
-void ButtonWin::Paint( wal::GC& gc, const crect& paintRect )
+void ButtonWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	crect r = ClientRect();
 	gc.SetFillColor( UiGetColor( uiBackground, 0, 0, 0xFFFFFF ) );
@@ -4107,7 +4105,7 @@ void StringWin::OnChangeStyles()
 	SetLSize( ls );
 }
 
-void StringWin::Paint( wal::GC& gc, const crect& paintRect )
+void StringWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	gc.Set( GetFont() );
 	crect r = ClientRect();
@@ -4188,7 +4186,7 @@ void EditorHeadWin::CheckSize()
 	nameRect.Set( prefixRect.right, y, symRect.left, y + chH );
 }
 
-void EditorHeadWin::EventSize( cevent_size* pEvent )
+void EditorHeadWin::EventSize( cevent_size* /*pEvent*/ )
 {
 	CheckSize();
 }
@@ -4198,8 +4196,8 @@ int EditorHeadWin::UiGetClassId() { return uiClassEditorHeadWin; };
 
 EditorHeadWin::EditorHeadWin( Win* parent, EditWin* pEdit )
 	:  Win( WT_CHILD, 0, parent, 0 ),
-	   prefixString( utf8_to_unicode( _LT( "Edit:" ) ).data() ),
-	   _edit( pEdit )
+	   _edit( pEdit ),
+	   prefixString( utf8_to_unicode( _LT( "Edit:" ) ).data() )
 {
 	OnChangeStyles();
 	CheckSize();
@@ -4273,7 +4271,7 @@ bool EditorHeadWin::UpdateSym()
 }
 
 
-bool EditorHeadWin::Broadcast( int id, int subId, Win* win, void* data )
+bool EditorHeadWin::Broadcast( int /*id*/, int /*subId*/, Win* win, void* /*data*/ )
 {
 	if ( win == _edit )
 	{
@@ -4311,7 +4309,7 @@ void EditorHeadWin::DrawSym( wal::GC& gc )
 }
 
 
-void EditorHeadWin::Paint( wal::GC& gc, const crect& paintRect )
+void EditorHeadWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	unsigned bgColor  = UiGetColor( uiBackground, 0, 0, 0x808080 );
 	crect r = ClientRect();
@@ -4411,7 +4409,7 @@ void ViewerHeadWin::CheckSize()
 	nameRect.Set( prefixRect.right, y, colRect.left, y + chH );
 }
 
-void ViewerHeadWin::EventSize( cevent_size* pEvent )
+void ViewerHeadWin::EventSize( cevent_size* /*pEvent*/ )
 {
 	CheckSize();
 }
@@ -4421,8 +4419,8 @@ int ViewerHeadWin::UiGetClassId() { return uiClassViewerHeadWin; }
 
 ViewerHeadWin::ViewerHeadWin( Win* parent, ViewWin* pView )
 	:  Win( WT_CHILD, 0, parent, 0 ),
-	   prefixString( utf8_to_unicode( _LT( "View:" ) ).data() ),
-	   _view( pView )
+	   _view( pView ),
+	   prefixString( utf8_to_unicode( _LT( "View:" ) ).data() )
 {
 	OnChangeStyles();
 	CheckSize();
@@ -4498,7 +4496,7 @@ bool ViewerHeadWin::UpdateCol()
 
 
 
-bool ViewerHeadWin::Broadcast( int id, int subId, Win* win, void* data )
+bool ViewerHeadWin::Broadcast( int /*id*/, int /*subId*/, Win* win, void* /*data*/ )
 {
 	if ( win == _view )
 	{
@@ -4535,7 +4533,7 @@ void ViewerHeadWin::DrawPercent( wal::GC& gc )
 	_DrawUnicode( gc, percentRect, percentString.Str(), UiGetColor( uiColor, 0, 0, 0 ), bgColor );
 }
 
-void ViewerHeadWin::Paint( wal::GC& gc, const crect& paintRect )
+void ViewerHeadWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	unsigned bgColor  = UiGetColor( uiBackground, 0, 0, 0x808080 );
 	crect r = ClientRect();

@@ -35,7 +35,7 @@ static void SetString( char* dest, int len, const char* src )
 
 #ifdef LIBSMBCLIENT_EXIST
 
-clPtr<FS> ParzeSmbURI( const unicode_t* uri, FSPath& path, clPtr<FS>* checkFS, int count )
+clPtr<FS> ParzeSmbURI( const unicode_t* uri, FSPath& path, clPtr<FS>* /*checkFS*/, int /*count*/ )
 {
 	path.Set( rootPathStr );
 

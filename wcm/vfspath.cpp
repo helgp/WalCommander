@@ -331,7 +331,7 @@ void cs_string::copy( const cs_string& a, int cs_id )
 					u = buf;
 				}
 
-				unicode_t* CHK = old_charset->cs_to_unicode( u, ( char* )( ( Node* )a.data )->data, -1, 0 );
+				/*unicode_t* CHK = */old_charset->cs_to_unicode( u, ( char* )( ( Node* )a.data )->data, -1, 0 );
 				u[sym_count] = 0;
 			}
 

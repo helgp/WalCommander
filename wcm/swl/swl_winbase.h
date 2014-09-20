@@ -52,7 +52,7 @@ namespace wal
 		explicit MenuTextInfo(const unicode_t* inStr);
 		MenuTextInfo() :strBeforeHk(0), strHk(0), strAfterHk(0), strFull(0), hotkeyUpperCase(0){}
 		MenuTextInfo(const MenuTextInfo& src) { Init(src); }
-		MenuTextInfo& operator=(const MenuTextInfo& src){ Clear(); Init(src); };
+		MenuTextInfo& operator=(const MenuTextInfo& src){ Clear(); Init(src); return *this;};
 		~MenuTextInfo()	{Clear();}
 
 		void SetText(const unicode_t* inStr);
@@ -450,7 +450,7 @@ namespace wal
 			MenuData* sub;
 			//Node(): type( 0 ), sub( 0 ) {}
 			Node( int _type, int _id, const unicode_t* s,  const unicode_t* rt, MenuData* _sub )
-				: type(_type), id(_id), sub(_sub), leftText(s)
+				: type(_type), id(_id), leftText(s), sub(_sub)
 			{
 				//if ( s ) { leftText = new_unicode_str( s ); }
 

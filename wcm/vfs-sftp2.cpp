@@ -129,12 +129,12 @@ static FSCInfo* volatile kbdIntInfo = 0;
 static FSSftpParam* volatile kbdIntParam = 0;
 
 void KbIntCallback(
-   const char* name, int name_len,
-   const char* instruction, int instruction_len,
+   const char* /*name*/, int /*name_len*/,
+   const char* /*instruction*/, int /*instruction_len*/,
    int num_prompts,
    const LIBSSH2_USERAUTH_KBDINT_PROMPT* prompts,
    LIBSSH2_USERAUTH_KBDINT_RESPONSE* responses,
-   void** anstract )
+   void** /*anstract*/ )
 {
 	if ( num_prompts <= 0 ) { return; }
 
@@ -627,7 +627,7 @@ FSString FSSftp::StrError( int err )
 	return FSString( CS_UTF8, s );
 }
 
-int FSSftp::OpenRead ( FSPath& path, int flags, int* err, FSCInfo* info )
+int FSSftp::OpenRead ( FSPath& path, int /*flags*/, int* err, FSCInfo* info )
 {
 	MutexLock lock( &mutex );
 	int ret = CheckSession( err, info );
@@ -675,7 +675,7 @@ int FSSftp::OpenRead ( FSPath& path, int flags, int* err, FSCInfo* info )
 	return n;
 }
 
-int FSSftp::OpenCreate  ( FSPath& path, bool overwrite, int mode, int flags, int* err, FSCInfo* info )
+int FSSftp::OpenCreate  ( FSPath& path, bool overwrite, int mode, int /*flags*/, int* err, FSCInfo* info )
 {
 	MutexLock lock( &mutex );
 	int ret = CheckSession( err, info );

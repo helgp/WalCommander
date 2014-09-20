@@ -419,7 +419,7 @@ unsigned FSFtp::Flags() { return HAVE_READ; } // | HAVE_WRITE; }
 
 bool FSFtp::IsEEXIST( int err ) { return err == EFTP_EXIST; }
 bool FSFtp::IsENOENT( int err ) { return err == EFTP_NOTEXIST; }
-bool FSFtp::IsEXDEV( int err ) { return false; }
+bool FSFtp::IsEXDEV( int /*err*/ ) { return false; }
 
 bool FSFtp::Equal( FS* fs )
 {
@@ -577,7 +577,7 @@ FSString FSFtp::StrError( int err )
 }
 
 
-int FSFtp::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info )
+int FSFtp::OpenRead  ( FSPath& path, int /*flags*/, int* err, FSCInfo* info )
 {
 	int nodeId = GetFreeNode( err, info );
 
@@ -604,7 +604,7 @@ int FSFtp::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info )
 	return nodeId;
 }
 
-int FSFtp::OpenCreate   ( FSPath& path, bool overwrite, int mode, int flags, int* err, FSCInfo* info )
+int FSFtp::OpenCreate   ( FSPath& path, bool overwrite, int /*mode*/, int /*flags*/, int* err, FSCInfo* info )
 {
 	if ( !overwrite )
 	{
@@ -825,7 +825,7 @@ int FSFtp::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* info 
 	return 0;
 }
 
-int FSFtp::MkDir  ( FSPath& path, int mode, int* err,  FSCInfo* info )
+int FSFtp::MkDir  ( FSPath& path, int /*mode*/, int* err,  FSCInfo* info )
 {
 	{
 		//проверка на существование
@@ -939,7 +939,7 @@ int FSFtp::RmDir  ( FSPath& path, int* err, FSCInfo* info )
 
 
 
-int FSFtp::SetFileTime  ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* info )
+int FSFtp::SetFileTime  ( FSPath& /*path*/, FSTime /*aTime*/, FSTime /*mTime*/, int* /*err*/, FSCInfo* /*info*/ )
 {
 	return 0;
 }

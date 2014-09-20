@@ -49,9 +49,9 @@ SftpLogonDialog::SftpLogonDialog( NCDialogParent* parent, FSSftpParam& params )
 	   userText(0, this, utf8_to_unicode(_LT("&Login:")).data(), &userEdit),
 //	passwordText(this, utf8_to_unicode("Password:").ptr()),
 	   portText( 0, this, utf8_to_unicode( _LT( "&Port:" ) ).data(), &portEdit ),
+	   charset( params.charset ),
 	   charsetText(0, this, utf8_to_unicode(_LT("&Charset:")).data(), &charsetButton),
 
-	   charset( params.charset ),
 	   charsetIdText( 0, this, utf8_to_unicode( "***************" ).data() ), //чтоб место забить
 
 	   serverEdit  ( 0, this, 0, 0, 16 ),

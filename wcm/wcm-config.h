@@ -84,16 +84,15 @@ private:
 
 public:
 
-#pragma region System settings
+// System settings
 	bool systemAskOpenExec;
 	bool systemEscPanel;
 	bool systemBackSpaceUpDir;
 	bool systemAutoComplete;
 	bool systemShowHostName;
 	std::vector<char> systemLang; //"+" - auto "-" -internal eng.
-#pragma endregion
 
-#pragma region Panel settings
+// Panel settings
 	bool panelShowHiddenFiles;
 	bool panelCaseSensitive;
 	bool panelSelectFolders;
@@ -102,33 +101,28 @@ public:
 	bool panelShowExecutableIcons;
 	int panelModeLeft;
 	int panelModeRight;
-#pragma endregion
 
-#pragma region Editor settings
+// Editor settings
 	bool editSavePos;
 	bool editAutoIdent;
 	int editTabSize;
 	bool editShl;
-#pragma endregion
 
-#pragma region Terminal settings
+// Terminal settings
 	int terminalBackspaceKey;
-#pragma endregion
 
-#pragma region Style settings
+// Style settings
 	int styleColorMode;
 	bool styleShowToolBar;
 	bool styleShowButtonBar;
-#pragma endregion 
 
-#pragma region Window position and size to be restored on the next startup
+// Window position and size to be restored on the next startup
 	int windowX;
 	int windowY;
 	int windowWidth;
 	int windowHeight;
-#pragma endregion
 
-#pragma region Fonts
+// Fonts
 	std::vector<char> panelFontUri;
 	std::vector<char> viewerFontUri;
 	std::vector<char> editorFontUri;
@@ -140,12 +134,10 @@ public:
 
 	/// store properties of the currently active fonts in ...Uri fields
 	void ImpCurrentFonts();
-#pragma endregion
 
-#pragma region Paths of the panels to be restored on the next startup
+// Paths of the panels to be restored on the next startup
 	std::vector<char> leftPanelPath;
 	std::vector<char> rightPanelPath;
-#pragma endregion
 
 	WcmConfig();
 	void Load( NCWin* nc );

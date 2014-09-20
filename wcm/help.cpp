@@ -269,7 +269,7 @@ struct HelpNodeTable: public HelpNode
 
 ///// HelpNode
 
-void HelpNode::Init( HelpGC& gc ) {}
+void HelpNode::Init( HelpGC& /*gc */) {}
 
 void HelpNode::Prepare( int width )
 {
@@ -279,14 +279,14 @@ void HelpNode::Prepare( int width )
 
 	_size.x = width;
 }
-void HelpNode::Paint( HelpGC& gc, int x, int y, bool selected, crect visibleRect ) {}
+void HelpNode::Paint( HelpGC&/* gc*/, int /*x*/, int /*y*/, bool /*selected*/, crect /*visibleRect */) {}
 
 HelpNode::~HelpNode() {}
 
 
 ///// HelpNodeSpace
 
-void HelpNodeSpace::Paint( HelpGC& gc, int x, int y, bool selected, crect visibleRect )
+void HelpNodeSpace::Paint( HelpGC& gc, int x, int y, bool /*selected*/, crect /*visibleRect */)
 {
 	gc.SetFillColor( _style->Bg() );
 	crect r( x, y, x + _size.x, y + _size.y );
@@ -302,7 +302,7 @@ void HelpNodeSpace::Init( HelpGC& gc )
 	_min = _max = _size.x;
 }
 
-void HelpNodeSpace::Prepare( int w ) {}
+void HelpNodeSpace::Prepare( int /*w */) {}
 
 HelpNodeSpace::~HelpNodeSpace() {}
 
@@ -595,7 +595,7 @@ void HelpNodeV::Init( HelpGC& gc )
 	_size.y = ( V * _count ) / 10;
 }
 
-void  HelpNodeV::Prepare( int w ) {}
+void  HelpNodeV::Prepare( int /*w */) {}
 
 HelpNodeV::~HelpNodeV() {}
 
@@ -611,12 +611,12 @@ void HelpNodeH::Init( HelpGC& gc )
 }
 
 
-void HelpNodeH::Prepare( int w ) {}
+void HelpNodeH::Prepare( int /*w */) {}
 
 HelpNodeH::~HelpNodeH() {}
 
 ///// HelpNodeWord
-HelpNodeWord::HelpNodeWord( HelpStyle* style, const char* utf8, const char* addr )
+HelpNodeWord::HelpNodeWord( HelpStyle* style, const char* utf8, const char*/* addr */)
 	:  HelpNode( style ),
 	   _txt( utf8_to_unicode( utf8 ) )
 {
@@ -629,9 +629,9 @@ void HelpNodeWord::Init( HelpGC& gc )
 	_min = _max = _size.x;
 }
 
-void HelpNodeWord::Prepare( int w ) {}
+void HelpNodeWord::Prepare( int /*w */) {}
 
-void HelpNodeWord::Paint( HelpGC& gc, int x, int y, bool selected, crect visibleRect )
+void HelpNodeWord::Paint( HelpGC& gc, int x, int y, bool /*selected*/, crect /*visibleRect*/ )
 {
 	gc.Set( _style->Font() );
 	gc.SetFillColor( _style->Bg() );
@@ -919,14 +919,14 @@ class HelpParzer
 	};
 
 	BlockNode* blockStack;
-	void PopBlockData( HelpParzerBlockData& d ) { if ( blockStack ) { BlockNode* p = blockStack; blockStack = blockStack->next; currentBData = p->data; delete p; } }
+	void PopBlockData( HelpParzerBlockData& /*d */) { if ( blockStack ) { BlockNode* p = blockStack; blockStack = blockStack->next; currentBData = p->data; delete p; } }
 	void PushBlockData( HelpParzerBlockData& d ) { blockStack = new BlockNode( d, blockStack ); }
 
 	HelpParzerBlockData currentBData;
 
 public:
 	HelpParzer( HelpParzerStream* _stream, cstrhash<HelpStyle>* _styles )
-		: stream( _stream ), styles( _styles ), blockStack( 0 ), tok( 'a' ), cchar( 'a' ), backChar( 0 )
+		: stream( _stream ), styles( _styles ), cchar( 'a' ),  backChar( 0 ), tok( 'a' ), blockStack( 0 )
 	{
 		if ( styles ) { currentBData.style = styles->exist( "def" ); }
 
@@ -1683,7 +1683,7 @@ bool HelpWin::Command( int id, int subId, Win* win, void* data )
 	return Win::Command( id, subId, win, data );
 }
 
-void HelpWin::Paint( wal::GC& gc, const crect& paintRect )
+void HelpWin::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	crect rect = ClientRect();
 	Draw3DButtonW2( gc, rect, 0x808080, false );
@@ -1715,7 +1715,7 @@ void HelpWin::Paint( wal::GC& gc, const crect& paintRect )
 	}
 }
 
-void HelpWin::EventSize( cevent_size* pEvent )
+void HelpWin::EventSize( cevent_size* /*pEvent */)
 {
 	if ( data.ptr() )
 	{

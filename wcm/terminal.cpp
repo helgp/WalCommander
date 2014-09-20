@@ -85,6 +85,7 @@ Ok:
 }
 
 
+/*
 static int WritePipe( int fd, int cmd, ... )
 {
 	ccollect<char*> list;
@@ -222,7 +223,7 @@ static void Shell( int in, int out )
 		};
 	}
 }
-
+*/
 
 int TerminalStream::Read( char* buf, int size )
 {
@@ -272,7 +273,7 @@ int TerminalStream::SetSize( int rows, int cols )
 	struct winsize ws;
 	ws.ws_row = ( rows > 0 ) ? rows : 1;
 	ws.ws_col = ( cols > 0 ) ? cols : 1;
-	int r = ioctl( _masterFd, TIOCSWINSZ, &ws );
+	/*int r = */ioctl( _masterFd, TIOCSWINSZ, &ws );
 	return 0;
 }
 
@@ -468,19 +469,19 @@ inline void Terminal::OutAppendUnicode( unicode_t c )
 	{
 		if ( c < 0x10000 ) //1110xxxx 10xxxxxx 10xxxxxx
 		{
-			outQueue.Put( 0x80 | c & 0x3F );
+			outQueue.Put( 0x80 | (c & 0x3F ) );
 			c >>= 6;
-			outQueue.Put( 0x80 | c & 0x3F );
+			outQueue.Put( 0x80 | (c & 0x3F ) );
 			c >>= 6;
 			outQueue.Put( ( c & 0x0F ) | 0xE0 );
 		}
 		else     //11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 		{
-			outQueue.Put( 0x80 | c & 0x3F );
+			outQueue.Put( 0x80 | (c & 0x3F ) );
 			c >>= 6;
-			outQueue.Put( 0x80 | c & 0x3F );
+			outQueue.Put( 0x80 | (c & 0x3F ) );
 			c >>= 6;
-			outQueue.Put( 0x80 | c & 0x3F );
+			outQueue.Put( 0x80 | (c & 0x3F ) );
 			c >>= 6;
 			outQueue.Put( ( c & 0x7 ) | 0xF0 );
 		}
@@ -525,7 +526,7 @@ void Terminal::TerminalPrint( const unicode_t* str, unsigned fg, unsigned bg )
 #define  DBG printf
 
 
-void* TerminalInputThreadFunc( void* data )
+[[ noreturn ]]void* TerminalInputThreadFunc( void* data )
 {
 	Terminal* terminal = ( Terminal* )data;
 

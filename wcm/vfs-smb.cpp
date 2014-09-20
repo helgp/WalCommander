@@ -120,7 +120,7 @@ static void SetString( char* dest, int len, const char* src )
 //static int authIteration = 0; // 0 - search in cache >0 ask user
 //static bool authCancelled;
 
-static void smbcAuth( const char* srv, const char* shr,  char* wg, int wglen, char* un, int unlen, char* pw, int pwlen )
+static void smbcAuth( const char* /*srv*/, const char* /*shr*/,  char* wg, int wglen, char* un, int unlen, char* pw, int pwlen )
 {
 	if ( !currentFsParam->server[0] ) //ходим по сети
 	{
@@ -211,7 +211,7 @@ bool FSSmb::Equal( FS* fs )
 	return true;
 }
 
-int FSSmb::OpenRead( FSPath& path, int flags, int* err, FSCInfo* info )
+int FSSmb::OpenRead( FSPath& path, int /*flags*/, int* err, FSCInfo* info )
 {
 	FREPARE_SMB_OPER( lock, info, &_param );
 
@@ -220,7 +220,7 @@ int FSSmb::OpenRead( FSPath& path, int flags, int* err, FSCInfo* info )
 	return n < 0 ? -1 : n;
 }
 
-int FSSmb::OpenCreate( FSPath& path, bool overwrite, int mode, int flags, int* err, FSCInfo* info )
+int FSSmb::OpenCreate( FSPath& path, bool overwrite, int mode, int /*flags*/, int* err, FSCInfo* info )
 {
 	FREPARE_SMB_OPER( lock, info, &_param );
 
@@ -370,7 +370,7 @@ static int SMB_STAT( const char* url, struct stat* st )
 }
 
 
-static int InternalStat( FSPath& path, FSStat* fsStat, FSCInfo* info )
+static int InternalStat( FSPath& path, FSStat* fsStat, FSCInfo* /*info*/ )
 {
 	struct stat st;
 
@@ -413,7 +413,7 @@ static int SMB_FSTAT( int fd, struct stat* st )
 }
 
 
-static int InternalFStat( int fd, FSStat* fsStat, FSCInfo* info )
+static int InternalFStat( int fd, FSStat* fsStat, FSCInfo* /*info*/ )
 {
 	struct stat st;
 
@@ -448,7 +448,7 @@ int FSSmb::FStat( int fd, FSStat* st, int* err, FSCInfo* info )
 }
 
 
-int FSSmb::Symlink( FSPath& path, FSString& str, int* err, FSCInfo* info ) //EPERM
+int FSSmb::Symlink( FSPath& /*path*/, FSString& /*str*/, int* err, FSCInfo* /*info*/ ) //EPERM
 {
 	SetError( err, EPERM );
 	return -1;
@@ -571,14 +571,14 @@ int FSSmb::ReadDir( FSList* list, FSPath& _path, int* err, FSCInfo* info )
 		smbc_closedir( d );
 
 		return 0;
-
+/*
 err:
 		SetError( err, errno );
 
 		smbc_closedir( d );
 
 		return -1;
-
+*/
 
 	}
 	catch ( ... )

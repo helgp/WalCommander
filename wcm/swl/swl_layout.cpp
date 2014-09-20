@@ -630,7 +630,7 @@ namespace wal
 		*ls = l;
 	}
 
-	void LItemRect::SetPos( crect _rect, wal::ccollect<WSS>& wList )
+	void LItemRect::SetPos( crect _rect, wal::ccollect<WSS>& /*wList*/ )
 	{
 		if ( rect ) { *rect = _rect; }
 	}

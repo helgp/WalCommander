@@ -33,7 +33,7 @@ clPtr<wal::GC> defaultGC;
 const char* appName = "Wal Commander GitHub Edition";
 
 cfont* ( *OldSysGetFont )( Win* w, int id ) = 0;
-cfont* MSysGetFont( Win* w, int id )
+cfont* MSysGetFont( Win* w, int /*id*/ )
 {
 	if ( w )
 	{
@@ -188,7 +188,7 @@ int main( int argc, char** argv )
 		OldSysGetFont = SysGetFont;
 		SysGetFont = MSysGetFont;
 
-		cfont* defaultFont = SysGetFont( 0, 0 );
+		//cfont* defaultFont = SysGetFont( 0, 0 );
 		defaultGC = new wal::GC( ( Win* )0 );
 
 #ifndef _WIN32

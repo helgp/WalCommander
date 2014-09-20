@@ -60,7 +60,7 @@ namespace wal
 	{
 		if ( select == n ) { return; }
 
-		int t = select;
+		//int t = select;
 		select = n;
 
 		if ( sub.ptr() )
@@ -351,7 +351,7 @@ namespace wal
 	}
 
 
-	void MenuBar::Paint( GC& gc, const crect& paintRect )
+	void MenuBar::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		crect rect = ClientRect();
 

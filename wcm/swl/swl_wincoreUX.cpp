@@ -101,7 +101,7 @@ namespace wal
 
 		XWindowAttributes xwAttr;
 
-		Status ret = XGetWindowAttributes( display, DefaultRootWindow( display ), &xwAttr );
+		/*Status ret = */XGetWindowAttributes( display, DefaultRootWindow( display ), &xwAttr );
 		s.x = xwAttr.width;
 		s.y = xwAttr.height;
 
@@ -140,7 +140,7 @@ namespace wal
 		                    valueMask, &attrs );
 	}
 
-	void ClipboardSetText( Win* w, ClipboardText& text )
+	void ClipboardSetText( Win* /*w*/, ClipboardText& text )
 	{
 		clipboardText = text;
 		XSetSelectionOwner( display, atom_PRIMARY, clipboardWinId, CurrentTime );
@@ -254,7 +254,7 @@ namespace wal
 			//зафиксировать бля все цвета в палитре по умолчанию
 			for ( i = 0; i < n; i++ )
 			{
-				int ret = XAllocColor( display, colorMap, &( xc[i] ) );
+				/*int ret = */XAllocColor( display, colorMap, &( xc[i] ) );
 			}
 
 		}
@@ -487,7 +487,7 @@ namespace wal
 
 
 	static chash<RepaintHashNode, WINID> repaintHash;
-	static void ForeachDrawExpose( RepaintHashNode* t, void* data )
+	static void ForeachDrawExpose( RepaintHashNode* t, void* /*data*/ )
 	{
 		DrawExposeRect( GetWinByID( t->id ) );
 	}
@@ -1237,7 +1237,7 @@ namespace wal
 			{
 				Win* w = GetWinByID( event->xclient.window );
 
-				if ( w && event->xclient.message_type == atom_WM_PROTOCOLS && event->xclient.data.l[0] == atom_WM_DELETE_WINDOW )
+				if ( w && event->xclient.message_type == atom_WM_PROTOCOLS && (Atom)event->xclient.data.l[0] == atom_WM_DELETE_WINDOW )
 				{
 					cevent ev( EV_CLOSE );
 					w->Event( &ev );
@@ -1575,20 +1575,20 @@ namespace wal
 
 				if ( c < 0x10000 ) //1110xxxx 10xxxxxx 10xxxxxx
 				{
-					s[2] = 0x80 | c & 0x3F;
+					s[2] = 0x80 | (c & 0x3F);
 					c >>= 6;
-					s[1] = 0x80 | c & 0x3F;
+					s[1] = 0x80 | (c & 0x3F );
 					c >>= 6;
 					s[0] = ( c & 0x0F ) | 0xE0;
 					q->Put( s, 3 );
 				}
 				else     //11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				{
-					s[3] = 0x80 | c & 0x3F;
+					s[3] = 0x80 | (c & 0x3F );
 					c >>= 6;
-					s[2] = 0x80 | c & 0x3F;
+					s[2] = 0x80 | (c & 0x3F );
 					c >>= 6;
-					s[1] = 0x80 | c & 0x3F;
+					s[1] = 0x80 | (c & 0x3F );
 					c >>= 6;
 					s[0] = ( c & 0x7 ) | 0xF0;
 					q->Put( s, 4 );
@@ -1750,7 +1750,7 @@ namespace wal
 	}
 
 
-	static void RunGetClipboard( Win* w, ClipboardText* text )
+	static void RunGetClipboard( Win* /*w*/, ClipboardText* text )
 	{
 		Atom cbAtom = atom_CLIPBOARD;
 		Window selOwner = XGetSelectionOwner( display, cbAtom );
@@ -2329,8 +2329,8 @@ Nah:
 		layout( 0 ),
 		uiNameId( uiNId ),
 
-		exposeRect( 0, 0, 0, 0 ),
-		reparent( 0 )
+		reparent( 0 ),
+		exposeRect( 0, 0, 0, 0 )
 	{
 		crect r = ( rect ? *rect : crect( 0, 0, 1, 1 ) );
 
@@ -2904,7 +2904,7 @@ stopped:
 
 /////////////////////////////////////////////  cfont
 
-	cfont::cfont( GC& gc, const char* name, int pointSize, cfont::Weight weight, unsigned flags )
+	cfont::cfont( GC& /*gc*/, const char* name, int pointSize, cfont::Weight weight, unsigned flags )
 		: type( -1 ), data( 0 )
 	{
 		char buf[1024];

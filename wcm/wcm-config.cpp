@@ -34,7 +34,7 @@ class TextInStream
 	int pos, count;
 	bool FillBuffer() { if ( pos < count ) { return true; } if ( count <= 0 ) { return false; } count = Read( buffer.data(), bufSize ); pos = 0; return count > 0; }
 public:
-	TextInStream( int _bSize = 1024 ): bufSize( _bSize > 0 ? _bSize : 1024 ), count( 1 ), pos( 1 ) { buffer.resize( bufSize ); }
+	TextInStream( int _bSize = 1024 ): bufSize( _bSize > 0 ? _bSize : 1024 ), pos( 1 ), count( 1 ) { buffer.resize( bufSize ); }
 	int GetC() { FillBuffer(); return pos < count ? buffer[pos++] : EOF; }
 	bool GetLine( char* s, int size );
 	~TextInStream() {}
@@ -158,7 +158,7 @@ void SysTextFileOut::Write( char* buf, int size ) {  f.Write( buf, size ); }
 static FSPath configDirPath( CS_UTF8, "???" );
 
 inline bool IsSpace( int c ) { return c > 0 && c <= 32; }
-inline bool IsLatinChar( int c ) { return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z'; }
+inline bool IsLatinChar( int c ) { return (c >= 'a' && c <= 'z' )|| (c >= 'A' && c <= 'Z'); }
 inline bool IsDigit( int c ) { return c >= '0' && c <= '9'; }
 
 
@@ -660,9 +660,9 @@ WcmConfig::WcmConfig()
 
 	   terminalBackspaceKey( 0 ),
 
+		styleColorMode( 0 ),
 		styleShowToolBar( true ),
 		styleShowButtonBar( true ),
-		styleColorMode( 0 ),
 
 	   windowX(0),
 		windowY(0),
@@ -1470,7 +1470,7 @@ public:
 		clPtr<cfont> newFont;
 		bool fixed;
 		Node(): oldFont( 0 ) {}
-		Node( const char* n, bool fix,  cfont* old, std::vector<char>* uri ): name( new_char_str( n ) ), fixed( fix ), oldFont( old ), pUri( uri ) {}
+		Node( const char* n, bool fix,  cfont* old, std::vector<char>* uri ): name( new_char_str( n ) ), oldFont( old ), pUri( uri ), fixed( fix ) {}
 	};
 
 	ccollect<Node>* pList;
@@ -1747,8 +1747,8 @@ bool StyleOptDialog::EventChildKey( Win* child, cevent_key* pEvent )
 	if ( pEvent->Type() == EV_KEYDOWN )
 	{
 		if (
-		   pEvent->Key() == VK_RETURN && ( child == &changeButton || child == &changeX11Button ) ||
-		   ( pEvent->Key() == VK_UP || pEvent->Key() == VK_DOWN ) && child == &fontList
+		   (pEvent->Key() == VK_RETURN && ( child == &changeButton || child == &changeX11Button ) ) ||
+		   ( ( pEvent->Key() == VK_UP || pEvent->Key() == VK_DOWN ) && child == &fontList)
 		)
 		{
 			return false;

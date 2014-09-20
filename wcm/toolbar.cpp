@@ -27,7 +27,7 @@ int ToolBar::UiGetClassId() { return uiClassToolBar; }
 
 void ToolBar::RecalcItems()
 {
-	crect cr = ClientRect();
+	//crect cr = ClientRect();
 	int x = 2;
 	int y = 2;
 
@@ -163,7 +163,7 @@ void ToolBar::DrawNode( wal::GC& gc, Node* pNode, int state )
 	}
 }
 
-void ToolBar::Paint( wal::GC& gc, const crect& paintRect )
+void ToolBar::Paint( wal::GC& gc, const crect& /*paintRect*/ )
 {
 	crect cr = ClientRect();
 	crect rect = cr;
@@ -208,7 +208,7 @@ void ToolBar::Paint( wal::GC& gc, const crect& paintRect )
 	return;
 }
 
-void ToolBar::EventTimer( int tid )
+void ToolBar::EventTimer( int /*tid*/ )
 {
 	if ( _curTip != _nextTip )
 	{

@@ -215,7 +215,7 @@ static bool ReadCmd( int fd, int* pCmd, ccollect<std::vector<char> >& params )
 
 	return true;
 }
-
+/*
 static bool WriteCmd( int fd, int cmd, ccollect<char*>& list )
 {
 	try
@@ -232,7 +232,7 @@ static bool WriteCmd( int fd, int cmd, ccollect<char*>& list )
 
 	return true;
 }
-
+*/
 static bool WriteCmd( int fd, int cmd, ccollect<std::vector<char> >& list )
 {
 	try
@@ -379,7 +379,7 @@ pid_t Shell::Exec( const char* cmd )
 	return atoi( list[0].data() );
 }
 
-int Shell::Wait( pid_t pid, int* pStatus )
+int Shell::Wait( pid_t pid, int* /*pStatus*/ )
 {
 	char buf[64];
 	sprintf( buf, "%i", pid );

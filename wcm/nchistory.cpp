@@ -50,7 +50,7 @@ void NCHistory::Put( const unicode_t* str )
 		}
 	}
 
-	const size_t HistorySize = 1000;
+	const int HistorySize = 1000;
 
 	if ( m_List.count() > HistorySize )
 	{

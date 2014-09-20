@@ -279,7 +279,7 @@ void OperSaveFileThread::Run()
 
 			if ( count <= 0 ) { break; }
 
-			if ( count > sizeof( buf ) )
+			if ( count > (int)sizeof( buf ) )
 			{
 				count = sizeof( buf );
 			}

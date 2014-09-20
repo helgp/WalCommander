@@ -34,7 +34,7 @@ struct TScreen
 
 	int bufSize;
 	std::vector<TermChar> buf;
-	TScreen(): rows( 1 ), cols( 1 ), buf( 1 ), bufSize( 1 ) {}
+	TScreen(): rows( 1 ), cols( 1 ), bufSize( 1 ), buf( 1 ) {}
 
 	void SetSize( int r, int c )
 	{

@@ -90,7 +90,7 @@ namespace wal
 		Change( isSet );
 	}
 
-	bool SButton::Broadcast( int id, int subId, Win* win, void* data )
+	bool SButton::Broadcast( int id, int subId, Win* win, void* /*data*/ )
 	{
 		if ( id == CMD_SBUTTON_INFO && subId == SCMD_SBUTTON_CHECKED
 		     && win != this
@@ -103,7 +103,7 @@ namespace wal
 		return false;
 	}
 
-	void SButton::Paint( GC& gc, const crect& paintRect )
+	void SButton::Paint( GC& gc, const crect& /*paintRect*/ )
 	{
 		crect cr = ClientRect();
 
@@ -199,7 +199,7 @@ namespace wal
 		return text.isHotkeyMatching(UnicodeUC(pEvent->Char())) ? this: 0;
 	}
 
-	bool SButton::EventFocus( bool recv )
+	bool SButton::EventFocus( bool /*recv*/ )
 	{
 		Invalidate();
 		return true;
