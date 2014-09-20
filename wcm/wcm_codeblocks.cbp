@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-Werror" />
 					<Add option="-g" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DUSEFREETYPE" />
@@ -42,6 +43,9 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-Werror" />
 					<Add option="-O3" />
 					<Add option="-I/usr/include/freetype2" />
 					<Add option="-m64" />
@@ -70,6 +74,9 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-Werror" />
 					<Add option="-g" />
 					<Add option="-I/usr/include/freetype2" />
 					<Add option="-m32" />
@@ -98,6 +105,9 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-Werror" />
 					<Add option="-O3" />
 					<Add option="-I/usr/include/freetype2" />
 					<Add option="-m32" />

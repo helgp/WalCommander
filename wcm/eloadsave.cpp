@@ -293,7 +293,7 @@ void OperSaveFileThread::Run()
 			int r = file->Read( buf, count );
 			ASSERT( r == count );
 
-			int n = fs->Write( f, buf, count, &ret_error, Info() );
+			int n = fs->Write( f, buf, r, &ret_error, Info() );
 
 			if ( n < 0 )
 			{

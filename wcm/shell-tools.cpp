@@ -268,6 +268,7 @@ static bool accmask_begin0( const unicode_t* name, const unicode_t* mask )
 	}
 }
 
+/*
 static bool accmask_nocase_begin0( const unicode_t* name, const unicode_t* mask )
 {
 
@@ -305,7 +306,7 @@ static bool accmask_nocase_begin0( const unicode_t* name, const unicode_t* mask 
 		mask++;
 	}
 }
-
+*/
 
 struct ShellFileDlgData
 {

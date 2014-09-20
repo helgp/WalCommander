@@ -63,8 +63,7 @@ namespace wal
 		{
 			if ( pipe( const_cast<int*>( fd ) ) )
 			{
-				fprintf( stderr, "can`t create internal pipe (WthInternalEvent)\n" );
-				exit( 1 );
+				throw_syserr( 0, "can`t create internal pipe  WthInternalEvent::ctor" );
 			}
 		};
 
@@ -77,7 +76,7 @@ namespace wal
 			char c = 0;
 			int ret = write( fd[1], &c, sizeof( c ) );
 
-			if ( ret < 0 ) { throw_syserr( 0, "internal error WthInternalEvent" ); }
+			if ( ret < 0 ) { throw_syserr( 0, "internal error WthInternalEvent::SetSignal" ); }
 
 			signaled = true;
 		}
@@ -91,7 +90,10 @@ namespace wal
 			if ( !signaled ) { return; }
 
 			char c;
-			/*int ret = */read( fd[0], &c, sizeof( c ) );
+			int ret = read( fd[0], &c, sizeof( c ) );
+
+			if ( ret < 0 ) { throw_syserr( 0, "internal error WthInternalEvent::ClearSignal" ); }
+
 			signaled = false;
 		};
 

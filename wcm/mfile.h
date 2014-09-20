@@ -145,8 +145,12 @@ ttt:
 		if ( res > 0 )
 		{
 			std::vector<char> a( res );
-			int n = Read( a.data(), res );
-			ASSERT( n == res );
+			int nread = Read( a.data(), res );
+			//ASSERT( n == res );
+			if(nread != res )
+			{
+				a.resize(nread);
+			}
 			return a;
 		}
 

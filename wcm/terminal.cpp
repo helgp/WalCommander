@@ -286,7 +286,7 @@ TerminalStream::~TerminalStream()
 	}
 }
 
-[[ noreturn ]] void* TerminalInputThreadFunc( void* data );
+void* TerminalInputThreadFunc [[ noreturn ]]( void* data );
 void* TerminalOutputThreadFunc( void* data );
 
 Terminal::Terminal( /*int maxRows*/ )
@@ -526,7 +526,7 @@ void Terminal::TerminalPrint( const unicode_t* str, unsigned fg, unsigned bg )
 #define  DBG printf
 
 
-[[ noreturn ]]void* TerminalInputThreadFunc( void* data )
+void* TerminalInputThreadFunc [[ noreturn ]] ( void* data )
 {
 	Terminal* terminal = ( Terminal* )data;
 

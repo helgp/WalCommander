@@ -213,10 +213,10 @@ namespace wal
 	template <HashIndex size> class StaticTableParam
 	{
 	public:
-		static bool need_expand( HashIndex count, HashIndex tableSize ) { return false;  }
-		static bool need_shrink( HashIndex count, HashIndex tableSize ) {   return false;   }
-		static HashIndex lover( HashIndex tableSize ) {   return size; }
-		static HashIndex upper( HashIndex tableSize )  {  return size; }
+		static bool need_expand( HashIndex /*count*/, HashIndex /*tableSize*/ ) { return false;  }
+		static bool need_shrink( HashIndex /*count*/, HashIndex /*tableSize*/ ) {   return false;   }
+		static HashIndex lover( HashIndex /*tableSize*/ ) {   return size; }
+		static HashIndex upper( HashIndex /*tableSize*/ )  {  return size; }
 	};
 
 

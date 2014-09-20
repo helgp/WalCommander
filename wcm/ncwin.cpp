@@ -1074,7 +1074,12 @@ void NCWin::ReturnToDefaultSysDir()
 	}
 
 #else
-	/*int r = */chdir( "/" );
+	int r = chdir( "/" );
+	if(r)
+	{
+		// XXX do something useful instead of panicing
+		dbg_printf("panic: chdir('/') failed");
+	}
 #endif
 }
 

@@ -4,7 +4,7 @@ INSTALL_TREE = cp -R
 BIN_DIR=$(DESTDIR)/usr/bin
 TARGET_DIR=$(DESTDIR)/usr/
 
-CFLAGS= -D_FILE_OFFSET_BITS=64 -I /usr/local/include -O3 -I wal -I swl -pthread $(CFLAGS_FREETYPE) -I/usr/src/contrib/libstdc++/include/backward
+CFLAGS= -Wall -Wextra -Werror -D_FILE_OFFSET_BITS=64 -I /usr/local/include -O3 -I wal -I swl -pthread $(CFLAGS_FREETYPE) -I/usr/src/contrib/libstdc++/include/backward
 #CFLAGS= -D_FILE_OFFSET_BITS=64 -I /usr/local/include -g -O1 -fno-inline -I wal -I swl -pthread $(CFLAGS_FREETYPE)
 
 UNAME_S := $(shell uname -s)

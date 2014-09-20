@@ -522,7 +522,7 @@ namespace wal
 #ifdef _DEBUG
 	void dbg_printf( const char* format, ... );
 #else
-	inline void dbg_printf( const char* format, ... ) { }
+	inline void dbg_printf( const char*/* format*/, ... ) { }
 #endif
 
 	const char* sys_locale_lang();
