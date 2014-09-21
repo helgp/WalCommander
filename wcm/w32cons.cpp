@@ -18,7 +18,7 @@
 
 int uiClassTerminal = GetUiID( "Terminal" );
 
-BOOL WINAPI ConsoleHandlerRoutine( DWORD dwCtrlType )
+BOOL WINAPI ConsoleHandlerRoutine( DWORD /*dwCtrlType */)
 {
 	return TRUE;
 }
@@ -209,7 +209,13 @@ struct ConsInput
 
 static ConsInput consInput;
 
-void* ConsInputThread( void* data )
+#ifdef _MSC_VER // Visual stidio
+#define _NORETURN __declspec (noreturn)
+#else
+#define _NORETURN [[noreturn]] 
+#endif
+
+_NORETURN void* ConsInputThread(void* /*data*/)
 {
 #define IBS 0x100
 	INPUT_RECORD buf[IBS];
@@ -408,7 +414,7 @@ void W32Cons::CalcScroll()
 }
 
 
-bool W32Cons::Command( int id, int subId, Win* win, void* data )
+bool W32Cons::Command( int id, int subId, Win* /*win*/, void* data )
 {
 	if ( id != CMD_SCROLL_INFO )
 	{
@@ -625,9 +631,10 @@ bool W32Cons::Execute( Win* w, int tId, const unicode_t* _cmd, const unicode_t* 
 		int l = wcslen( cmd.ptr() );
 		wchar_t line1[] = L"\r\n>";
 		wchar_t newline[] = L"\r\n";
-		WriteConsoleW( outHandle, line1, 3, 0, 0 );
-		WriteConsoleW( outHandle, cmd.ptr(), l, 0, 0 );
-		WriteConsoleW( outHandle, newline, 2, 0, 0 );
+		DWORD numWritten;
+		WriteConsoleW(outHandle, line1, 3, &numWritten, 0);
+		WriteConsoleW(outHandle, cmd.ptr(), l, &numWritten, 0);
+		WriteConsoleW(outHandle, newline, 2, &numWritten, 0);
 		SetConsoleTextAttribute( outHandle, lastAttr );
 	}
 
@@ -709,9 +716,9 @@ bool W32Cons::Execute( Win* w, int tId, const unicode_t* _cmd, const unicode_t* 
 	return false;
 }
 
-void W32Cons::EventSize( cevent_size* pEvent )
+void W32Cons::EventSize( cevent_size* /*pEvent*/ )
 {
-	cpoint size = pEvent->Size();
+	//cpoint size = pEvent->Size();
 
 	int W = _rect.Width();
 	int H = _rect.Height();
@@ -768,7 +775,7 @@ inline bool EqCInfo( CHAR_INFO& a, CHAR_INFO& b )
 bool W32Cons::DrawChanges()
 {
 	GC gc( this );
-	crect clientRect = ClientRect();
+	//crect clientRect = ClientRect();
 	gc.Set( GetFont() );
 
 	int R = screen.Rows();
@@ -1029,7 +1036,7 @@ void W32Cons::MarkerClear()
 	Invalidate();
 }
 
-void W32Cons::ThreadSignal( int id, int data )
+void W32Cons::ThreadSignal( int /*id*/, int /*data*/ )
 {
 }
 
@@ -1068,8 +1075,8 @@ bool W32Cons::EventMouse( cevent_mouse* pEvent )
 	bool pointChanged = lastMousePoint != pt;
 	lastMousePoint = pt;
 
-	bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
-	bool ctrl = ( pEvent->Mod() & KM_CTRL ) != 0;
+	//bool shift = ( pEvent->Mod() & KM_SHIFT ) != 0;
+	//bool ctrl = ( pEvent->Mod() & KM_CTRL ) != 0;
 
 	switch ( pEvent->Type() )
 	{
@@ -1234,7 +1241,7 @@ void W32Cons::DrawRow( wal::GC& gc, int r, int first, int last )
 }
 
 
-void W32Cons::Paint( wal::GC& gc, const crect& paintRect )
+void W32Cons::Paint( wal::GC& gc, const crect& /*paintRect */)
 {
 	crect clientRect = ClientRect();
 	gc.Set( GetFont() );

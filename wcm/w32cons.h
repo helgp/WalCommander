@@ -43,8 +43,8 @@ public:
 	~Buf2D() {}
 };
 
-inline bool operator <( const COORD& a, const COORD& b ) { return a.Y < b.Y || a.Y == b.Y && a.X < b.X; }
-inline bool operator <=( const COORD& a, const COORD& b ) { return a.Y < b.Y || a.Y == b.Y && a.X <= b.X; }
+inline bool operator <( const COORD& a, const COORD& b ) { return (a.Y < b.Y) || (a.Y == b.Y && a.X < b.X); }
+inline bool operator <=( const COORD& a, const COORD& b ) { return (a.Y < b.Y) || (a.Y == b.Y && a.X <= b.X); }
 inline bool operator !=( const COORD& a, const COORD& b ) { return a.Y != b.Y ||  a.X != b.X; }
 
 struct ConsMarker
@@ -122,8 +122,8 @@ public:
 	bool Execute( Win* w, int tId, const unicode_t* cmd, const unicode_t* params, const unicode_t* path ); //const sys_char_t *path);
 
 	void Key( cevent_key* pEvent );
-	void TerminalReset( bool clearScreen = false ) { }
-	void TerminalPrint( const unicode_t* s, unsigned fg, unsigned bg ) { }
+	void TerminalReset( bool /*clearScreen */= false ) { }
+	void TerminalPrint( const unicode_t* /*s*/, unsigned /*fg*/, unsigned /*bg*/ ) { }
 
 	void DropConsole()
 	{

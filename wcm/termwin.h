@@ -90,9 +90,9 @@ public:
 	virtual ~TerminalWin();
 	void Execute( Win* w, int tId, const unicode_t* cmd, const sys_char_t* path );
 #ifdef _WIN32
-	void Key( unsigned key, unsigned ch ) {}
-	void TerminalReset( bool clearScreen = false ) { }
-	void TerminalPrint( const unicode_t* s, unsigned fg, unsigned bg ) { }
+	void Key( unsigned /*key*/, unsigned /*ch*/ ) {}
+	void TerminalReset( bool /*clearScreen*/ = false ) { }
+	void TerminalPrint( const unicode_t* /*s*/, unsigned /*fg*/, unsigned /*bg*/ ) { }
 #else
 	void Key( unsigned key, unsigned ch ) { _terminal.Key( key, ch ); }
 	void TerminalReset( bool clearScreen = false ) { _terminal.TerminalReset( clearScreen ); }
