@@ -822,7 +822,7 @@ namespace wal
 
 			for ( j = 0; p; p = p->next, j++ )
 			{
-				NULL;
+				//NULL;
 			}
 
 			result->get( j )++;
@@ -865,7 +865,7 @@ namespace wal
 		{
 			for ( ; *a /* && *b */ && *a == *b; a++, b++ )
 			{
-				NULL;
+				//NULL;
 			}
 
 			return *a == *b;
@@ -1276,7 +1276,7 @@ template <class T> inline bool strless( T* a, T* b )
 
 	for ( ; *s1 && *s1 == *s2; s1++, s2++ )
 	{
-		NULL;
+		//NULL;
 	}
 
 	return *s1 <= *s2;
