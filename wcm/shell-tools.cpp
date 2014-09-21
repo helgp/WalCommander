@@ -268,7 +268,7 @@ static bool accmask_begin0( const unicode_t* name, const unicode_t* mask )
 	}
 }
 
-/*
+#ifdef _WIN32
 static bool accmask_nocase_begin0( const unicode_t* name, const unicode_t* mask )
 {
 
@@ -306,7 +306,7 @@ static bool accmask_nocase_begin0( const unicode_t* name, const unicode_t* mask 
 		mask++;
 	}
 }
-*/
+#endif //_WIN32
 
 struct ShellFileDlgData
 {

@@ -119,7 +119,8 @@ namespace wal
 
 		uintptr_t r = _beginthreadex( 0, 0, _thRun, tinfo, detached ? 0 : CREATE_SUSPENDED, 0 );
 
-		if ( r == -1L )
+		if ( r == 0 ) // _beginthreadex returns 0 on error, unlike its sister _beginthread, 
+			          // which returns -1L on error. Thanks, Microsoft
 		{
 			free( tinfo );
 			SetLastError( ERROR_TOO_MANY_TCBS );
@@ -420,7 +421,7 @@ namespace wal
 #ifdef _WIN32
 	struct W32LCNode
 	{
-		int n;
+		unsigned n;
 		const char* lang;
 	};
 

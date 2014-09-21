@@ -123,7 +123,7 @@ inline std::vector<wchar_t> UnicodeToUtf16_cat( const unicode_t* s, wchar_t* cat
 unsigned FSSys::Flags() { return HAVE_READ | HAVE_WRITE | HAVE_SYMLINK | HAVE_SEEK; }
 bool  FSSys::IsEEXIST( int err ) { return err == ERROR_FILE_EXISTS; } //err == EEXIST; }
 bool  FSSys::IsENOENT( int err ) { return err == ERROR_FILE_NOT_FOUND ; } // err == ENOENT; }
-bool  FSSys::IsEXDEV( int err ) { return false; } // err == EXDEV; }
+bool  FSSys::IsEXDEV( int /*err*/ ) { return false; } // err == EXDEV; }
 
 FSString FSSys::StrError( int err )
 {
@@ -193,7 +193,7 @@ static std::vector<wchar_t> SysPathStr( int drive, const unicode_t* s )
 }
 
 
-int FSSys::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info )
+int FSSys::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* /*info*/ )
 {
 	int shareFlags = 0;
 
@@ -225,10 +225,10 @@ int FSSys::OpenRead  ( FSPath& path, int flags, int* err, FSCInfo* info )
 }
 
 
-int FSSys::OpenCreate   ( FSPath& path, bool overwrite, int mode, int flags,  int* err, FSCInfo* info )
+int FSSys::OpenCreate   ( FSPath& path, bool overwrite, int /* mode */ , int /* flags */,  int* err, FSCInfo* /* info */ )
 {
 	DWORD diseredAccess = GENERIC_READ | GENERIC_WRITE;
-	DWORD shareMode = 0;
+	//DWORD shareMode = 0;
 	DWORD creationDisposition = ( overwrite ) ? CREATE_ALWAYS  : CREATE_NEW;
 //???
 
@@ -254,7 +254,7 @@ int FSSys::OpenCreate   ( FSPath& path, bool overwrite, int mode, int flags,  in
 	return fd;
 }
 
-int FSSys::Close( int fd, int* err, FSCInfo* info )
+int FSSys::Close( int fd, int* err, FSCInfo* /* info */ )
 {
 	HANDLE* p = this->handles.Handle( fd );
 
@@ -272,7 +272,7 @@ int FSSys::Close( int fd, int* err, FSCInfo* info )
 	return 0;
 }
 
-int FSSys::Read( int fd, void* buf, int size, int* err, FSCInfo* info )
+int FSSys::Read( int fd, void* buf, int size, int* err, FSCInfo* /* info */)
 {
 	HANDLE* p = this->handles.Handle( fd );
 
@@ -289,7 +289,7 @@ int FSSys::Read( int fd, void* buf, int size, int* err, FSCInfo* info )
 	return bytes;
 }
 
-int FSSys::Write( int fd, void* buf, int size, int* err, FSCInfo* info )
+int FSSys::Write( int fd, void* buf, int size, int* err, FSCInfo* /* info */ )
 {
 	HANDLE* p = this->handles.Handle( fd );
 
@@ -306,7 +306,7 @@ int FSSys::Write( int fd, void* buf, int size, int* err, FSCInfo* info )
 	return bytes;
 }
 
-int FSSys::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* err, FSCInfo* info )
+int FSSys::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* err, FSCInfo* /* info */ )
 {
 	HANDLE* p = this->handles.Handle( fd );
 
@@ -329,7 +329,7 @@ int FSSys::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* er
 	return 0;
 }
 
-int FSSys::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* info )
+int FSSys::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* /* info */ )
 {
 	if ( MoveFileW(
 	        SysPathStr( _drive, oldpath.GetUnicode( '\\' ) ).data(),
@@ -340,7 +340,7 @@ int FSSys::Rename ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* info 
 	return -1;
 }
 
-int FSSys::MkDir( FSPath& path, int mode, int* err,  FSCInfo* info )
+int FSSys::MkDir( FSPath& path, int /*mode*/, int* err,  FSCInfo* /*info*/ )
 {
 	if ( CreateDirectoryW( SysPathStr( _drive, path.GetUnicode( '\\' ) ).data(), 0 ) ) { return 0; }
 
@@ -352,7 +352,7 @@ int FSSys::MkDir( FSPath& path, int mode, int* err,  FSCInfo* info )
 	return -1;
 }
 
-int FSSys::Delete( FSPath& path, int* err, FSCInfo* info )
+int FSSys::Delete( FSPath& path, int* err, FSCInfo* /*info*/ )
 {
 	std::vector<wchar_t> sp = SysPathStr( _drive, path.GetUnicode( '\\' ) );
 
@@ -371,7 +371,7 @@ int FSSys::Delete( FSPath& path, int* err, FSCInfo* info )
 	return -1;
 }
 
-int FSSys::RmDir( FSPath& path, int* err, FSCInfo* info )
+int FSSys::RmDir( FSPath& path, int* err, FSCInfo* /*info */)
 {
 	std::vector<wchar_t> sp = SysPathStr( _drive, path.GetUnicode( '\\' ) );
 
@@ -390,7 +390,7 @@ int FSSys::RmDir( FSPath& path, int* err, FSCInfo* info )
 	return -1;
 }
 
-int FSSys::SetFileTime  ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* info )
+int FSSys::SetFileTime  ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* /*info*/ )
 {
 	HANDLE h = CreateFileW( SysPathStr( _drive, path.GetUnicode( '\\' ) ).data(), FILE_WRITE_ATTRIBUTES , 0, 0, OPEN_EXISTING, 0, 0 );
 
@@ -436,7 +436,7 @@ static std::vector<wchar_t> FindPathStr(int drive, const unicode_t *s, wchar_t *
 }
 */
 
-static std::vector<wchar_t> FindPathStr( int drive, const unicode_t* s, wchar_t* cat )
+static std::vector<wchar_t> FindPathStr( int drive, const unicode_t* s, const wchar_t* cat )
 {
 	int lcat = Utf16Chars( cat );
 
@@ -550,9 +550,9 @@ int FSSys::ReadDir( FSList* list, FSPath& _path, int* err, FSCInfo* info )
 	return -1;
 }
 
-int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* info )
+int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* /*info*/ )
 {
-	if ( _drive >= 0 && path.Count() == 1 || _drive == -1 && path.Count() == 3 )
+	if ( (_drive >= 0 && path.Count() == 1) || (_drive == -1 && path.Count() == 3) )
 	{
 		//pseudo stat
 		fsStat->size = 0;
@@ -602,7 +602,7 @@ int FSSys::Stat( FSPath& path, FSStat* fsStat, int* err, FSCInfo* info )
 	return -1;
 }
 
-int64 FSSys::GetFileSystemFreeSpace( FSPath& path, int* err )
+int64 FSSys::GetFileSystemFreeSpace( FSPath& /*path*/, int* /*err*/ )
 {
 	DWORD SectorsPerCluster;
 	DWORD BytesPerSector;
@@ -611,14 +611,14 @@ int64 FSSys::GetFileSystemFreeSpace( FSPath& path, int* err )
 
 	int d = Drive();
 
-	char RootPath[] = { d + 'A', ':', '\\', 0 };
+	char RootPath[] = { (char)(d + 'A'), ':', '\\', 0 };
 
 	if ( GetDiskFreeSpace( RootPath, &SectorsPerCluster, &BytesPerSector, &NumberOfFreeClusters, &TotalNumberOfClusters ) != TRUE ) { return -1; }
 
 	return ( int64 )SectorsPerCluster * ( int64 )BytesPerSector * ( int64 )NumberOfFreeClusters;
 }
 
-int FSSys::FStat( int fd, FSStat* fsStat, int* err, FSCInfo* info )
+int FSSys::FStat( int fd, FSStat* fsStat, int* err, FSCInfo* /*info*/ )
 {
 	BY_HANDLE_FILE_INFORMATION e;
 	HANDLE* p = this->handles.Handle( fd );
@@ -649,7 +649,7 @@ int FSSys::FStat( int fd, FSStat* fsStat, int* err, FSCInfo* info )
 	return 0;
 }
 
-int FSSys::Symlink( FSPath& path, FSString& str, int* err, FSCInfo* info )
+int FSSys::Symlink( FSPath& /*path*/, FSString& /*str*/, int* err, FSCInfo* /*info*/ )
 {
 	//...
 	SetError( err, 50 );
@@ -686,12 +686,12 @@ static cinthash<int, std::vector<unicode_t> > groupList;
 
 static unicode_t c0 = 0;
 
-static unicode_t* GetOSUserName( int id )
+static unicode_t* GetOSUserName( int /*id*/ )
 {
 	return &c0;
 }
 
-static unicode_t* GetOSGroupName( int id )
+static unicode_t* GetOSGroupName( int /*id*/ )
 {
 	return &c0;
 }
@@ -779,9 +779,9 @@ unsigned char* W32NetRes::Copy( const unsigned char* a )
 /////////////////////////// FSWin32Net /////////////////////////
 
 unsigned FSWin32Net::Flags() { return 0; }
-bool FSWin32Net::IsEEXIST( int err ) { return false; };
-bool FSWin32Net::IsENOENT( int err ) { return false; };
-bool FSWin32Net::IsEXDEV( int err ) { return false; };
+bool FSWin32Net::IsEEXIST( int /*err*/ ) { return false; };
+bool FSWin32Net::IsENOENT( int /*err*/ ) { return false; };
+bool FSWin32Net::IsEXDEV( int /*err*/ ) { return false; };
 
 FSString FSWin32Net::StrError( int err )
 {
@@ -798,18 +798,18 @@ FSString FSWin32Net::StrError( int err )
 }
 
 
-bool FSWin32Net::Equal( FS* fs ) { return false; };
+bool FSWin32Net::Equal( FS* /*fs*/ ) { return false; };
 
-int FSWin32Net::OpenRead   ( FSPath& path, int flags, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::OpenCreate ( FSPath& path, bool overwrite, int mode, int flags, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::Close   ( int fd, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::Read ( int fd, void* buf, int size, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::Write   ( int fd, void* buf, int size, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::Seek( int fd, SEEK_FILE_MODE mode, seek_t pos, seek_t* pRet,  int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::Rename  ( FSPath&  oldpath, FSPath& newpath, int* err,  FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::MkDir   ( FSPath& path, int mode, int* err,  FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::Delete  ( FSPath& path, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
-int FSWin32Net::RmDir   ( FSPath& path, int* err, FSCInfo* info ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::OpenRead   ( FSPath& /*path*/, int /*flags*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::OpenCreate ( FSPath& /*path*/, bool /*overwrite*/, int /*mode*/, int /*flags*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::Close   ( int /*fd*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::Read ( int /*fd*/, void* /*buf*/, int /*size*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::Write   ( int /*fd*/, void* /*buf*/, int /*size*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::Seek( int /*fd*/, SEEK_FILE_MODE /*mode*/, seek_t /*pos*/, seek_t* /*pRet*/,  int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::Rename  ( FSPath&  /*oldpath*/, FSPath& /*newpath*/, int* err,  FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::MkDir   ( FSPath& /*path*/, int /*mode*/, int* err,  FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::Delete  ( FSPath& /*path*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
+int FSWin32Net::RmDir   ( FSPath& /*path*/, int* err, FSCInfo* /*info*/ ) { SetError( err, ERRNOSUPPORT ); return -1; }
 
 class WNetEnumerator
 {
@@ -870,7 +870,7 @@ bool WNetEnumerator::Fill( DWORD* pErr )
 }
 
 
-int FSWin32Net::SetFileTime   ( FSPath& path, FSTime aTime, FSTime mTime, int* err, FSCInfo* info ) { if ( err ) { *err = ERRNOSUPPORT; } return -1; }
+int FSWin32Net::SetFileTime   ( FSPath& /*path*/, FSTime /*aTime*/, FSTime /*mTime*/, int* err, FSCInfo* /*info*/ ) { if ( err ) { *err = ERRNOSUPPORT; } return -1; }
 
 int FSWin32Net::ReadDir ( FSList* list, FSPath& path, int* err, FSCInfo* info )
 {
@@ -968,10 +968,10 @@ int FSWin32Net::ReadDir ( FSList* list, FSPath& path, int* err, FSCInfo* info )
 	return -1;
 }
 
-int FSWin32Net::Stat ( FSPath& path, FSStat* st, int* err, FSCInfo* info ) { if ( err ) { *err = ERRNOSUPPORT; } return -1; }
-int FSWin32Net::Symlink ( FSPath& path, FSString& str, int* err, FSCInfo* info ) { if ( err ) { *err = ERRNOSUPPORT; } return -1; }
+int FSWin32Net::Stat ( FSPath& /*path*/, FSStat* /*st*/, int* err, FSCInfo* /*info*/ ) { if ( err ) { *err = ERRNOSUPPORT; } return -1; }
+int FSWin32Net::Symlink ( FSPath& /*path*/, FSString& /*str*/, int* err, FSCInfo* /*info */) { if ( err ) { *err = ERRNOSUPPORT; } return -1; }
 
-FSString FSWin32Net::Uri( FSPath& path )
+FSString FSWin32Net::Uri( FSPath& /*path*/ )
 {
 	NETRESOURCEW* p = _res.Get();
 

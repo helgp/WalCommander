@@ -45,14 +45,16 @@ namespace wal
 		{
 			WinID wId = GetIDByWin( w );
 			WinID mId = GetIDByWin( mouseWindow );
-
-			w->Event( &cevent( EV_ENTER ) );
+			
+			cevent evEnter(EV_ENTER);
+			w->Event(&evEnter);
 
 			mouseWindow = GetWinByID( mId );
 
 			if ( mouseWindow )
 			{
-				mouseWindow->Event( &cevent( EV_LEAVE ) );
+				cevent ecLeave(EV_LEAVE);
+				mouseWindow->Event(&ecLeave);
 			}
 
 			mouseWindow = GetWinByID( wId );
@@ -104,7 +106,8 @@ namespace wal
 
 			if ( w != mouseWindow->GetID() && w != ::GetCapture() )
 			{
-				mouseWindow->Event( &cevent( EV_LEAVE ) );
+				cevent evLeave(EV_LEAVE);
+				mouseWindow->Event( &evLeave );
 			}
 
 			mouseWindow = 0;
@@ -160,7 +163,7 @@ namespace wal
 
 
 // надо с исключениями порешать
-	static LRESULT CALLBACK WProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+	LRESULT CALLBACK WProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	{
 		try
 		{
@@ -233,21 +236,33 @@ namespace wal
 
 					if ( win->parent ) { win->parent->lastFocusChild = hWnd; }
 
-					win->Event( &cevent( EV_SETFOCUS ) );
+					{
+						cevent evFocus(EV_SETFOCUS);
+						win->Event(&evFocus);
+					}
 					return 0;
 
 				case WM_KILLFOCUS:
 					Win::focusWinId = 0;
 					// win->ClearState(Win::S_FOCUS);
-					win->Event( &cevent( EV_KILLFOCUS ) );
+					{
+						cevent evKillFocus(EV_KILLFOCUS);
+						win->Event(&evKillFocus);
+					}
 					return 0;
 
 				case WM_SHOWWINDOW:
-					win->Event( &cevent_show( wParam != FALSE ) );
-					return 0;
+					{	
+						cevent_show ces(wParam != FALSE);
+						win->Event(&ces);
+						return 0;
+					}
 
 				case WM_CLOSE:
-					return ( win->Event( &cevent( EV_CLOSE ) ) ) ? DefWindowProc( hWnd, message, wParam, lParam ) : 0;
+					{
+						cevent evClose(EV_CLOSE);
+						return (win->Event(&evClose)) ? DefWindowProc(hWnd, message, wParam, lParam) : 0;
+					}
 
 				case WM_ACTIVATE:
 					if ( wParam == WA_ACTIVE || wParam == WA_CLICKACTIVE )
@@ -379,10 +394,16 @@ namespace wal
 					break;
 
 				case WM_SIZE:
-					return win->Event( &cevent_size( cpoint ( lParam & 0xFFFF, ( lParam >> 16 ) & 0xFFFF ) ) );
+				{
+								cevent_size cs(cpoint(lParam & 0xFFFF, (lParam >> 16) & 0xFFFF));
+								return win->Event(&cs);
+				}
 
 				case WM_MOVE:
-					return win->Event( &cevent_move( cpoint ( lParam & 0xFFFF, ( lParam >> 16 ) & 0xFFFF ) ) );
+				{
+								cevent_move cm(cpoint(cpoint(lParam & 0xFFFF, (lParam >> 16) & 0xFFFF)));
+								return win->Event(&cm);
+				}
 
 			};
 
@@ -509,17 +530,16 @@ namespace wal
 
 ////////////////////////////// Win
 
-	Win::Win( WTYPE t, unsigned hints, Win* _parent, const crect* rect, int uiNId )
+	Win::Win( WTYPE t, unsigned hints, Win* _parent, const crect* rect, int /*uiNId*/ )
 		:
-		type( t ),
-		whint( hints ),
-		parent( _parent ),
-		captured( false ),
-		state( 0 ),
+		parent(_parent),
+		type(t),
+		blockedBy(0),
+		modal(0),
+		whint(hints),
+		state(0),
+		captured(false),
 		lastFocusChild( 0 ),
-		blockedBy( 0 ),
-		modal( 0 ),
-
 		upLayout( 0 ),
 		layout( 0 )
 	{
@@ -581,7 +601,7 @@ namespace wal
 			handle = CreateWindow( wClass, "Hi", st,
 			                       X, Y, W, H,
 			                       ( parent && parent->handle ) ? parent->handle : 0, NULL, appInstance, NULL );
-			DWORD e = GetLastError();
+			//DWORD e = GetLastError();
 		}
 
 		if ( !handle )
@@ -888,7 +908,6 @@ namespace wal
 		   savedPen( 0 ),
 		   savedBrush( 0 ),
 		   savedFont( 0 ),
-		   bkMode( -1 ),
 		   linePen( 0 ),
 		   fillBrush( 0 ),
 		   fillRgb( 0 ),
@@ -897,7 +916,8 @@ namespace wal
 		   lineStyle( SOLID ),
 		   textRgb( 0 ), //textColor(0),
 		   textColorSet( false ),
-		   bkColorSet( false )
+		   bkColorSet( false ),
+		   bkMode(-1)
 	{
 	}
 
@@ -908,7 +928,6 @@ namespace wal
 		   savedPen( 0 ),
 		   savedBrush( 0 ),
 		   savedFont( 0 ),
-		   bkMode( -1 ),
 		   linePen( 0 ),
 		   fillBrush( 0 ),
 		   fillRgb( 0 ),
@@ -917,7 +936,8 @@ namespace wal
 		   lineStyle( SOLID ),
 		   textRgb( 0 ), //textColor(0),
 		   textColorSet( false ),
-		   bkColorSet( false )
+		   bkColorSet( false ),
+		   bkMode(-1)
 	{
 	}
 
@@ -962,7 +982,7 @@ namespace wal
 		bkColorSet = false;
 	}
 
-	void GC::SetLine( unsigned rgb, int width, int style )
+	void GC::SetLine( unsigned rgb, unsigned width, int style )
 	{
 		if ( linePen && lineRgb == rgb && lineWidth == width && lineStyle == style ) { return; }
 
@@ -1025,7 +1045,7 @@ namespace wal
 
 	void GC::FillRectXor( crect r )
 	{
-		RECT rect = {r.left, r.top, r.right, r.bottom};
+		//RECT rect = {r.left, r.top, r.right, r.bottom};
 		::PatBlt( handle, r.left, r.top, r.Width(), r.Height(), PATINVERT );
 	};
 
@@ -1186,7 +1206,7 @@ namespace wal
 		for ( s = buf; *s; s++ ) { uri.append( *s ); }
 
 		uri.append( ':' );
-		int i;
+		unsigned i;
 
 		for ( i = 0, s = lf.lfFaceName; *s && i < sizeof( lf.lfFaceName ); i++, s++ )
 		{
@@ -1350,7 +1370,7 @@ namespace wal
 
 ///////////////////////////////////////////// Clipboard
 
-	void ClipboardSetText( Win* w, ClipboardText& text )
+	void ClipboardSetText( Win* /* w */, ClipboardText& text )
 	{
 		int maxSize = text.Count();
 
@@ -1389,7 +1409,7 @@ namespace wal
 		{
 			if ( !EmptyClipboard() || SetClipboardData( CF_UNICODETEXT, h ) == NULL )
 			{
-				DWORD e = GetLastError();
+				//DWORD e = GetLastError();
 				GlobalFree( h );
 			}
 

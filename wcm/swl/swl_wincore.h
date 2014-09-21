@@ -781,7 +781,7 @@ namespace wal
 #endif
 
 		void SetFillColor( unsigned rgb );
-		void SetLine( unsigned rgb, int width = 1, int style = SOLID );
+		void SetLine( unsigned rgb, unsigned width = 1, int style = SOLID );
 		void SetTextColor( unsigned rgb );
 
 		unsigned TextRgb() const { return textRgb; }
