@@ -2046,13 +2046,13 @@ Nah:
 		fillColor = CreateColorFromRGB( rgb );
 	}
 
-	void GC::SetLine( unsigned rgb, int width, int style )
+	void GC::SetLine( unsigned rgb, unsigned width, int style )
 	{
 		if ( width == 1 ) { width = 0; }
 
 		int s = ( style == DOT ) ? LineOnOffDash : LineSolid;
 
-		if ( lineRgb == rgb && width  == gcValues.line_width && s == gcValues.line_style ) { return; }
+		if ( lineRgb == rgb && width  == (unsigned)gcValues.line_width && s == gcValues.line_style ) { return; }
 
 		gcValues.line_width = width;
 		gcValues.line_style = s;
