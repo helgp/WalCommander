@@ -148,7 +148,10 @@ clPtr<AppList> GetAppList( const unicode_t* uri )
 			node.name = NormalizeStr( Utf16ToUnicode( name.data() && name[0] ? name.data() : sub.data() ).data() );
 			node.cmd = CfgStringToCommand( command.data(), uri );
 
-			if ( ( pref.data() && !wcsicmp( pref.data(), sub.data() ) || !pref.data() && !wcsicmp( L"Open", sub.data() ) ) && ret->list.count() > 0 )
+			if ( (( pref.data() && !wcsicmp( pref.data(), sub.data() ) )
+				    || (!pref.data() && !wcsicmp( L"Open", sub.data() ) )) 
+				&& ret->list.count() > 0 
+				)
 			{
 				ret->list.insert( 0 );
 				ret->list[0] = node;
@@ -200,7 +203,7 @@ clPtr<AppList> GetAppList( const unicode_t* uri )
 }
 
 
-std::vector<unicode_t> GetOpenCommand( const unicode_t* uri, bool* needTerminal, const unicode_t** pAppName )
+std::vector<unicode_t> GetOpenCommand( const unicode_t* uri, bool* /*needTerminal*/, const unicode_t** /*pAppName*/ )
 {
 	std::vector<wchar_t> wCmd = GetOpenApp( GetFileExt( uri ).data() );
 

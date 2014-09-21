@@ -211,6 +211,8 @@ static ConsInput consInput;
 
 #ifdef _MSC_VER // Visual stidio
 #define _NORETURN __declspec (noreturn)
+// function declared with __declspec(noreturn) has non-void return type
+#pragma warning (disable: 4646)
 #else
 #define _NORETURN [[noreturn]] 
 #endif

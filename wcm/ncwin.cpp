@@ -2659,7 +2659,11 @@ bool ApplyEnvVariable( const char* EnvVarName, std::vector<unicode_t>* Out )
 	return true;
 }
 
-bool NCWin::StartCommand( const std::vector<unicode_t>& cmd, bool ForceNoTerminal )
+bool NCWin::StartCommand( const std::vector<unicode_t>& cmd, bool 
+#ifndef _WIN32
+	ForceNoTerminal 
+#endif
+)
 {
 	const unicode_t* p = cmd.data();
 

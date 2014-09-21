@@ -111,7 +111,7 @@ static  bool InitLocale( const sys_char_t* dir, const char* id )
 };
 
 #ifdef _WIN32
-int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR    lpCmdLine, int       nCmdShow )
+int APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR    /*lpCmdLine*/, int       /*nCmdShow */)
 #else
 int main( int argc, char** argv )
 #endif
