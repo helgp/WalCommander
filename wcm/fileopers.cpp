@@ -64,7 +64,11 @@ int SmbLogonOperCallback( void* cbData )
 }
 #endif
 
-bool OF_FSCInfo::SmbLogon( FSSmbParam* a )
+bool OF_FSCInfo::SmbLogon( FSSmbParam* 
+#ifdef LIBSMBCLIENT_EXIST
+	a 
+#endif
+)
 {
 #ifdef LIBSMBCLIENT_EXIST
 	MutexLock lock( _node->GetMutex() );
@@ -1044,7 +1048,11 @@ void CopyDialog::OperThreadSignal( int info )
 
 CopyDialog::~CopyDialog() {}
 
-static bool IsSameFile( FS* srcFs, FSPath& srcPath, FSStat* srcStat, FS* destFs, FSPath& destPath )
+static bool IsSameFile( FS* srcFs, FSPath& srcPath, FSStat*
+#ifndef _WIN32
+	srcStat
+#endif
+	, FS* destFs, FSPath& destPath )
 {
 	if ( srcFs->Type() != destFs->Type() ) { return false; }
 
