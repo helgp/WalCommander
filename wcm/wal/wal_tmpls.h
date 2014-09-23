@@ -1124,7 +1124,7 @@ namespace wal
 		}
 		catch ( ... )
 		{
-			if ( nb ) { delete [] nb; }
+			if ( nb ) { delete [] nb; } //-V668
 
 			throw;
 		}
@@ -1189,7 +1189,7 @@ namespace wal
 		}
 		catch ( ... )
 		{
-			if ( nb ) { delete [] nb; }
+			if ( nb ) { delete [] nb; } //-V668
 
 			throw;
 		}
@@ -1257,7 +1257,7 @@ namespace wal
 		}
 		catch ( ... )
 		{
-			if ( nb ) { delete [] nb; }
+			if ( nb ) { delete [] nb; } //-V668
 
 			throw;
 		}
