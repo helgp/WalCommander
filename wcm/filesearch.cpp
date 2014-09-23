@@ -793,7 +793,7 @@ bool SearchFile( clPtr<FS> f, FSPath p, NCDialogParent* parent, FSPath* retPath 
 		return false;
 	}
 
-	if ( !searchParams.mask.data() || !searchParams.mask[0] ) { return false; }
+	if ( !searchParams.mask.data() || !searchParams.mask[0] ) { return false; } //-V560
 
 	std::vector<char> utf8Mask = unicode_to_utf8( searchParams.mask.data() );
 
