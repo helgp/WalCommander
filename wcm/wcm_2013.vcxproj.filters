@@ -187,9 +187,6 @@
     <ClCompile Include="w32util.cpp">
       <Filter>%2a.cpp</Filter>
     </ClCompile>
-    <ClCompile Include="wal\wal.cpp">
-      <Filter>%2a.cpp</Filter>
-    </ClCompile>
     <ClCompile Include="wcm-config.cpp">
       <Filter>%2a.cpp</Filter>
     </ClCompile>
@@ -204,6 +201,9 @@
     </ClCompile>
     <ClCompile Include="swl\swl_staticlabel.cpp">
       <Filter>swl</Filter>
+    </ClCompile>
+    <ClCompile Include="wal\wal.cpp">
+      <Filter>wal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
