@@ -1,37 +1,46 @@
+# for -DDEBUG, and other local stuff
 -include makefile.local
 
 .SUFFIXES: .cpp .o
 
+CC  ?= gcc
+CPP ?= g++
+
 CFLAGS+= -Wall -Wextra -D_FILE_OFFSET_BITS=64  -pthread -std=c++11
 #CFLAGS+= -Werror
 CFLAGS+= -I wal -I swl 
-LIBS = -l stdc++  -l pthread
 UNAME_S := $(shell uname -s)
-ARCH    := $(shell uname -m)
-UNAME_OS:= $(shell uname -o)
+ARCH    := $(shell $(CC) -dumpmachine)
 
 
-ifeq ($(UNAME_S),Darwin)
+ifneq (,$(findstring Darwin,$(UNAME_S)))
 # make it buildable with XQuartz
 CFLAGS += -I /opt/X11/include
 CFLAGS += -Wno-logical-op-parentheses -Wno-bitwise-op-parentheses
 CFLAGS += -I /opt/X11/include/freetype2 -D USEFREETYPE
-LIBS   += -l freetype
-OS = $(UNAME_S)
-else ifeq ($(UNAME_OS),Cygwin)
-LIBS   += -lgdi32 -lcomdlg32 -lws2_32 -lwsock32 -lmpr 
-LDFLAGS += -static
-OS = Windows
-else
+LIBS   += -l freetype -lpthread
+OS = MACOS
+else ifneq (,$(findstring NT-,$(UNAME_S)))
+#mingw env does not have this defined. 0x501 = NT
+CFLAGS +=-D_WIN32_WINNT=0x501
+LIBS   += 
+LIBS   += -lssh2 -lws2_32 -lwsock32 -lssl -lcrypto
+LIBS   += -lz 
+LIBS   += -lmpr -lgdi32 -lcomdlg32 
+LDFLAGS += -static -static-libgcc -static-libstdc++
+OS = WINDOWS
+else #ifneq (,$(findstring Linux,$(UNAME_S))) # everythig else falls under Linux
 CFLAGS += -I /usr/local/include -I/usr/src/contrib/libstdc++/include/backward
 LIBS   += -l ssh2 
 LIBS   += -l smbclient
 LIBS   += -l freetype
-LIBS   += -l X11  
+LIBS   += -l X11
+LIBS   += -l pthread  
 LIBS   += -L /usr/local/lib -L /usr/X11R6/lib
 CFLAGS += -I /usr/include/freetype2 -I /usr/local/include/freetype2 -D USEFREETYPE
-OS=$(UNAME_S)
+OS=LINUX
 endif
+LIBS += -lstdc++ #-l pthread
 
 INSTALL_DIR = install -d
 INSTALL_PROGRAM = install -c -m 755
@@ -39,8 +48,14 @@ INSTALL_TREE = cp -R
 BIN_DIR=$(DESTDIR)/usr/bin
 TARGET_DIR=$(DESTDIR)/usr/
 
-CC  = gcc
-CPP = g++
+ifdef DEBUG
+	BLDOPTIM=debug
+	CFLAGS+=-g -DDEBUG
+	LDFLAGS+=-g
+else
+	BLDOPTIM=release
+	CLFAGS+=-O2 -D_NDEBUG
+endif
 
 BUILD=$(OS)/$(CC)/$(ARCH)/$(BLDOPTIM)
 $(info Build: $(BUILD))
@@ -52,16 +67,7 @@ VPATH=swl:wal:$(OBJDIR)
 .PATH.cpp = .:swl:wal
 .PATH.o = $(OBJDIR)
 
-ifdef DEBUG
-	BLDOPTIM=debug
-	CFLAGS+=-g -DDEBUG
-	LDFLAGS+=-g
-else
-	BLDOPTIM=release
-	CLFAGS+=-O2 -D_NDEBUG
-endif
-
-ifeq ($(OS),Windows)
+ifeq ($(OS),WINDOWS)
 OUTBIN=$(OUTDIR)/wcm.exe
 else
 OUTBIN=$(OUTDIR)/wcm
@@ -70,16 +76,16 @@ endif
 include makefile.objs
 
 OBJNAMES=$(OBJS_COMMON)
-ifeq ($(OS),Windows)
+ifeq ($(OS),WINDOWS)
 OBJNAMES+=$(OBJS_WIN)
 else
 OBJNAMES+=$(OBJS_UX)
 endif
 OBJS=$(addprefix $(OBJDIR)/,$(OBJNAMES))
 
-ifeq ($(OS),Darwin)
+ifeq ($(OS),MACOS)
 all: $(OUTBIN)
-else ifeq ($(OS),Windows)
+else ifeq ($(OS),WINDOWS)
 all: $(OUTBIN)
 else
 all: libconf_ux.h $(OUTBIN)
@@ -113,7 +119,7 @@ clean:
 	rm -f makelib.mk
 
 
-ifneq ($(OS),Windows)
+ifneq ($(OS),WINDOWS)
 install: wcm
 	$(INSTALL_DIR)	$(BIN_DIR)
 	$(INSTALL_DIR)	$(TARGET_DIR)

@@ -17,8 +17,14 @@
 *.suo
 *.user
 
+build/
+# 4 lines below may not be needed anymore, as all build results 
+# should be directed to build/*
 wcm/Debug/
 wcm/Release/
+Debug/
+Release/
+
 ipch/
 
 wcm/libconf_ux.h
@@ -34,11 +40,10 @@ wcm/libtester/libsmbtest
 wcm/*.depend
 wcm/*.layout
 
-Debug/
-Release/
-
 libssh2/dll32/
 
 *.obj
 *.ncb
 *.exe
+*.bak
+

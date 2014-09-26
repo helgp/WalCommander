@@ -4,9 +4,9 @@
  * walcommander@linderdaum.com
  */
 
+
 #include "vfs.h"
 #include "string-util.h"
-#include <sys/types.h>
 #include "unicode_lc.h"
 
 #if defined( __APPLE__ )

@@ -209,15 +209,8 @@ struct ConsInput
 
 static ConsInput consInput;
 
-#ifdef _MSC_VER // Visual stidio
-#define _NORETURN __declspec (noreturn)
-// function declared with __declspec(noreturn) has non-void return type
-#pragma warning (disable: 4646)
-#else
-#define _NORETURN [[noreturn]] 
-#endif
 
-_NORETURN void* ConsInputThread(void* /*data*/)
+void* ConsInputThread(void* /*data*/)
 {
 #define IBS 0x100
 	INPUT_RECORD buf[IBS];

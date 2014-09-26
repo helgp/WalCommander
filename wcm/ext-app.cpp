@@ -5,9 +5,8 @@
  */
 
 #include <wal.h>
-
+//#include <string.h>
 #ifdef _WIN32
-
 #include "ext-app.h"
 #include "string-util.h"
 #include "w32util.h"
@@ -96,6 +95,17 @@ static std::vector<unicode_t> NormalizeStr( unicode_t* s )
 	return p;
 }
 
+// Mingw does not have wcsicmp in c++11 mode
+static int local_wcsicmp (const wchar_t* cs, const wchar_t* ct)
+{
+	for (;towlower(*cs) == towlower(*ct); cs++, ct++)
+	{
+		if (*cs == 0)
+			return 0;
+        }
+        return towlower(*cs) - towlower(*ct);
+}
+
 clPtr<AppList> GetAppList( const unicode_t* uri )
 {
 	std::vector<wchar_t> ext = GetFileExt( uri );
@@ -148,8 +158,8 @@ clPtr<AppList> GetAppList( const unicode_t* uri )
 			node.name = NormalizeStr( Utf16ToUnicode( name.data() && name[0] ? name.data() : sub.data() ).data() );
 			node.cmd = CfgStringToCommand( command.data(), uri );
 
-			if ( (( pref.data() && !wcsicmp( pref.data(), sub.data() ) )
-				    || (!pref.data() && !wcsicmp( L"Open", sub.data() ) )) 
+			if ( (( pref.data() && !local_wcsicmp( pref.data(), sub.data() ) )
+				    || (!pref.data() && !local_wcsicmp( L"Open", sub.data() ) )) 
 				&& ret->list.count() > 0 
 				)
 			{

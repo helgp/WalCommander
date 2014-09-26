@@ -16,8 +16,8 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
-					<Add option="-Werror" />
 					<Add option="-g" />
+					<Add option="-Werror" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DUSEFREETYPE" />
 					<Add option="-DLIBSMB40" />
@@ -131,48 +131,59 @@
 			</Target>
 			<Target title="Debug Win32">
 				<Option platforms="Windows;" />
-				<Option output="../build/Windows_NT/gcc/i686/dedug/wcm.exe" prefix_auto="1" extension_auto="1" />
-				<Option object_output="../build/Windows_NT/gcc/i686/dedug/obj" />
+				<Option output="../build/Windows/gcc/i686/debug/wcm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../build/Windows/gcc/i686/debug/obj" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-D_DEBUG" />
 					<Add option="-g" />
+					<Add option="-static" />
+					<Add option="-D_DEBUG" />
 					<Add directory="wal" />
 					<Add directory="swl" />
+					<Add directory="C:/cygwin/usr/i686-pc-mingw32/sys-root/mingw/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-static" />
 					<Add library="ws2_32" />
 					<Add library="mpr" />
 					<Add library="kernel32" />
 					<Add library="user32" />
-					<Add library="gdi32" />
 					<Add library="advapi32" />
 					<Add library="comdlg32" />
-					<Add library="libz.a" />
+					<Add library="ssh2" />
+					<Add library="z" />
+					<Add library="ssl" />
+					<Add library="crypto" />
+					<Add library="gdi32" />
+					<Add directory="C:/cygwin/usr/i686-pc-mingw32/sys-root/mingw/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
 				<Option platforms="Windows;" />
-				<Option output="../build/Windows_NT/gcc/i686/release/wcm.exe" prefix_auto="1" extension_auto="1" />
-				<Option object_output="../build/Windows_NT/gcc/i686/release/obj" />
+				<Option output="../build/Windows/gcc/i686/release/wcm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../build/Windows/gcc/i686/release/obj" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-DNDEBUG" />
 					<Add option="-O2" />
+					<Add option="-DNDEBUG" />
 					<Add directory="wal" />
 					<Add directory="swl" />
 				</Compiler>
 				<Linker>
+					<Add option="-static" />
 					<Add library="ws2_32" />
 					<Add library="mpr" />
 					<Add library="kernel32" />
 					<Add library="user32" />
-					<Add library="gdi32" />
 					<Add library="advapi32" />
 					<Add library="comdlg32" />
-					<Add library="libz.a" />
+					<Add library="ssh2" />
+					<Add library="z" />
+					<Add library="ssl" />
+					<Add library="crypto" />
+					<Add library="gdi32" />
 				</Linker>
 			</Target>
 		</Build>

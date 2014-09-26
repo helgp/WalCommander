@@ -9,7 +9,7 @@
 #define LIBSSH2_EXIST
 
 #if defined(__GNUC__)
-#	undef LIBSSH2_EXIST
+//#	undef LIBSSH2_EXIST
 #endif
 
 #if defined(_WIN64)

@@ -78,7 +78,7 @@ SftpLogonDialog::SftpLogonDialog( NCDialogParent* parent, FSSftpParam& params )
 	serverEdit.Enable();
 	serverEdit.Show();
 
-	if ( !focus && !params.server.Data()[0] ) { serverEdit.SetFocus(); focus = true; }
+	if ( !focus && !params.server.Data()[0] ) { serverEdit.SetFocus(); focus = true; } //-V560
 
 	iL.AddWin( &userText, 2, 0, 2, 0 );
 	userText.Enable();

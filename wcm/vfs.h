@@ -63,6 +63,7 @@ typedef time_t FSTime;
 #define S_IXOTH   00001 //others have execute permission
 #endif
 
+#include <sys/types.h> //dev_t, ino_t
 struct FSStat
 {
 	FSString link;
