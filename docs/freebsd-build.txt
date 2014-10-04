@@ -2,6 +2,6 @@ pkg install gmake
 pkg install xorg
 pkg install libssh2
 export CC=cc
-export CPP=cpp
+export CPP=c++
 cd wcm
 gmake

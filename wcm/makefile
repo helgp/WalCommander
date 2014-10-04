@@ -16,7 +16,6 @@ ARCH    := $(shell $(CC) -dumpmachine)
 ifneq (,$(findstring Darwin,$(UNAME_S)))
 # make it buildable with XQuartz
 CFLAGS += -I /opt/X11/include
-CFLAGS += -Wno-logical-op-parentheses -Wno-bitwise-op-parentheses
 CFLAGS += -I /opt/X11/include/freetype2 -D USEFREETYPE
 LIBS   += -l freetype -lpthread
 OS = MACOS

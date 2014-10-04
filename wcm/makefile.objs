@@ -65,7 +65,8 @@ OBJS_WIN=\
 	swl_wincoreMS.o \
 	w32cons.o \
 	w32util.o \
-	ext-app.o
+	ext-app.o \
+	wcm.o
 
 OBJS_UX=\
 	swl_wincoreUX.o \
