@@ -4,7 +4,7 @@
 .SUFFIXES: .cpp .o
 
 CC  ?= gcc
-CPP ?= g++
+C++ ?= g++
 
 CFLAGS+= -Wall -Wextra -D_FILE_OFFSET_BITS=64  -pthread -std=c++11
 #CFLAGS+= -Werror
@@ -90,9 +90,11 @@ else
 all: libconf_ux.h $(OUTBIN)
 endif
 
-$(OUTBIN): $(OBJDIR) $(OBJS) $(OUTDIR)
-	$(CPP) $(LDFLAGS) -o $@ -pipe $(OBJS) $(LIBS)
+libconf_ux.h: libtester/libconf.create
+	cd libtester &&	. ./libconf.create && cd ..
 
+$(OUTBIN): $(OBJDIR) $(OBJS) $(OUTDIR)
+	$(CC) $(LDFLAGS) -o $@ -pipe $(OBJS) $(LIBS)
 # pull in dependency info for *existing* .o files
 -include $(OBJS:.o=.d)
 
@@ -104,8 +106,8 @@ $(OUTDIR):
 
 # compile and generate dependency info
 $(OBJDIR)/%.o: %.cpp
-	$(CPP) -c $(CFLAGS) -o $@ -c $<
-	$(CPP) -MM -MT $@ $(CFLAGS) $< > $(OBJDIR)/$*.d
+	$(C++) -c $(CFLAGS) -o $@ -c $<
+	$(C++) -MM -MT $@ $(CFLAGS) $< > $(OBJDIR)/$*.d
 
 clean:
 	rm -rf $(OBJDIR)
@@ -119,10 +121,10 @@ clean:
 
 
 ifneq ($(OS),WINDOWS)
-install: wcm
+install: $(OUTBIN)
 	$(INSTALL_DIR)	$(BIN_DIR)
 	$(INSTALL_DIR)	$(TARGET_DIR)
-	$(INSTALL_PROGRAM) wcm $(BIN_DIR)
+	$(INSTALL_PROGRAM) $(OUTBIN) $(BIN_DIR)
 	$(INSTALL_TREE) install-files/* $(TARGET_DIR)
 
 uninstall:
